@@ -7,41 +7,58 @@ slug: /java/task-15-mvc-pattern
 
 ## Теория
 
-Разделение модели, представления и контроллера. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Разделение модели, представления и контроллера. Практика собрана из реальных решений в каталоге `pr_Java/Task15`.
 
-## Код
+## Код из решения
 
-```java title="Task15Example.java"
-public final class Task15Example {
-    private Task15Example() {
+```java title="MVCPatternDemoEmployee.java"
+package Task15;
+
+public class MVCPatternDemoEmployee {
+    public static void main(String[] args){
+        Employee model = retriveEmployeeFromDa();
+        EmployeeView view = new EmployeeView();
+        EmployeeController controller = new EmployeeController(model, view);
+        controller.updateView();
+        controller.nds();
+        //controller.setEmployeeSalary(30000);
+        System.out.println("С вычитом подоходового налога");
+        controller.updateView();
+        controller.theend("Завершение работы");
     }
 
-    public static String run() {
-        return "Task 15: module ready";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+    private static Employee retriveEmployeeFromDa() {
+        Employee model = new Employee();
+        model.setName("Артем");
+        model.setSalary(30000);
+        return model;
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task15/Employee.java`
+- `pr_Java/Task15/EmployeeController.java`
+- `pr_Java/Task15/EmployeeView.java`
+- `pr_Java/Task15/Movie.java`
+- `pr_Java/Task15/MovieController.java`
+- `pr_Java/Task15/MovieView.java`
+- `pr_Java/Task15/MVCPatternDemoEmployee.java`
+- `pr_Java/Task15/MVCPatternDemoMovie.java`
+- `pr_Java/Task15/MVCPatternDemoStudent.java`
+- `pr_Java/Task15/Student.java`
+- `pr_Java/Task15/StudentController.java`
+- `pr_Java/Task15/StudentView.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task15/`.
-
-## Важные моменты
+В этом модуле используется 12 Java-файлов. Ключевые сущности: Employee, EmployeeController, EmployeeView, Movie, MovieController, MovieView.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 15 — MVC паттерн закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 15 — MVC паттерн теперь отражает фактическую реализацию из `pr_Java/Task15`, а не шаблонный пример.

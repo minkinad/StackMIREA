@@ -7,41 +7,52 @@ slug: /java/task-06-class-hierarchies
 
 ## Теория
 
-Построение связанных сущностей в единой иерархии. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Построение связанных сущностей в единой иерархии. Практика собрана из реальных решений в каталоге `pr_Java/Task6`.
 
-## Код
+## Код из решения
 
-```java title="Task06Example.java"
-public final class Task06Example {
-    private Task06Example() {
-    }
+```java title="TestDish.java"
+package Task6;
 
-    public static String run() {
-        return "Task 06: module ready";
-    }
-
+public class TestDish {
     public static void main(String[] args) {
-        System.out.println(run());
+        Dish d = new Cup("red", true, 4, 5);
+        Dish d1 = new Dish("black", false);
+        Dish d2 = new Pan("white", false, 78, 56);
+        Dish d3 = new Plate("blue", true, "Boorg", 32);
+        System.out.println(d);
+        System.out.println(d1);
+        System.out.println(d2);
+        System.out.println(d3);
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task6/Bed.java`
+- `pr_Java/Task6/Bylidog.java`
+- `pr_Java/Task6/Chair.java`
+- `pr_Java/Task6/Cup.java`
+- `pr_Java/Task6/Dish.java`
+- `pr_Java/Task6/Dog.java`
+- `pr_Java/Task6/Furniture.java`
+- `pr_Java/Task6/FurnitureShop.java`
+- `pr_Java/Task6/Haski.java`
+- `pr_Java/Task6/Pan.java`
+- `pr_Java/Task6/Plate.java`
+- `pr_Java/Task6/TestDish.java`
+- `pr_Java/Task6/TestDog.java`
+- `pr_Java/Task6/TestFurnitureShop.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task6/`.
-
-## Важные моменты
+В этом модуле используется 14 Java-файлов. Ключевые сущности: Bed, Bylidog, Chair, Cup, Dish, Dog.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 6 — Иерархии классов закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 6 — Иерархии классов теперь отражает фактическую реализацию из `pr_Java/Task6`, а не шаблонный пример.

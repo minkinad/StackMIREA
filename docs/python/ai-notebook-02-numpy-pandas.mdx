@@ -1,0 +1,49 @@
+---
+title: AI Notebook 2 — NumPy и pandas
+sidebar_position: 7
+description: Матрицы, DataFrame и масштабирование признаков.
+slug: /python/ai-notebook-02-numpy-pandas
+---
+
+## Теория
+
+Вторая тетрадь посвящена векторизации и табличным данным: NumPy, pandas и предобработке.
+
+## Код из решения
+
+```python title="Notebook2.ipynb (NumPy-шаблоны)"
+a = np.zeros(10)
+b = np.ones(10)
+c = np.full(10, 5)
+d = np.arange(10, 20)
+print(a, b, c, d)
+```
+
+```python title="Notebook2.ipynb (шахматная матрица 8x8)"
+import numpy as np
+
+a = np.zeros((8, 8))
+a[1::2, ::2] = 1
+a[::2, 1::2] = 1
+print(a)
+```
+
+```python title="Notebook2.ipynb (MinMaxScaler на iris)"
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+url = 'https://raw.githubusercontent.com/akmand/datasets/master/iris.csv'
+dataframe = pd.read_csv(url)
+scaler = MinMaxScaler()
+dataframe[['sepal_length_cm']] = scaler.fit_transform(dataframe[['sepal_length_cm']])
+```
+
+## Разбор
+
+Ключевая цель: научиться переходить от ручных операций к пакетной обработке массивов и признаков.
+
+Исходник: `pr_Python/Pr_Ai/Notebook2.ipynb`.
+
+## Вывод
+
+Notebook 2 формирует практику предобработки данных перед ML-моделированием.

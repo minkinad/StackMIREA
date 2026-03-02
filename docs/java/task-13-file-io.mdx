@@ -7,41 +7,64 @@ slug: /java/task-13-file-io
 
 ## Теория
 
-Чтение и запись файлов, обработка ошибок I/O. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Чтение и запись файлов, обработка ошибок I/O. Практика собрана из реальных решений в каталоге `pr_Java/Task13`.
 
-## Код
+## Код из решения
 
-```java title="Task13Example.java"
-public final class Task13Example {
-    private Task13Example() {
-    }
+```java title="file.java"
+package Task13;
 
-    public static String run() {
-        return "Task 13: module ready";
-    }
+import java.io.*;
+import java.util.Scanner;
 
+public class file {
     public static void main(String[] args) {
-        System.out.println(run());
+       //Задание 1 и 3
+        try (FileWriter writer = new FileWriter("D:\\IdeaProjects\\untitled\\src\\Task13\\test.txt", false)){
+            Scanner s = new Scanner(System.in);
+            String w = s.nextLine();
+            writer.write(w);
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        //Задание 2
+        try (FileReader reader = new FileReader("D:\\IdeaProjects\\untitled\\src\\Task13\\test.txt")){
+            int c;
+            while ((c=reader.read())!=-1){
+                System.out.println((char)c);
+            }
+        }catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        //Задание 4
+        try (FileWriter writer = new FileWriter("D:\\IdeaProjects\\untitled\\src\\Task13\\test.txt", true)){
+            Scanner s = new Scanner(System.in);
+            String w = s.nextLine();
+            writer.append("\n");
+            writer.write(w);
+            writer.flush();
+        }catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        //Задание 4
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task13/file.java`
+- `pr_Java/Task13/test.txt`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task13/`.
-
-## Важные моменты
+В этом модуле используется 1 Java-файлов. Ключевые сущности: file.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 13 — Файловый ввод-вывод закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 13 — Файловый ввод-вывод теперь отражает фактическую реализацию из `pr_Java/Task13`, а не шаблонный пример.

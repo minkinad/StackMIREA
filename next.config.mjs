@@ -1,4 +1,4 @@
-const REPO_NAME = "Practice-Make-Perfect";
+const REPO_NAME = "StackMIREA";
 const basePath = `/${REPO_NAME}`;
 const isProduction = process.env.NODE_ENV === "production";
 

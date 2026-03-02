@@ -7,41 +7,156 @@ slug: /java/task-24-final-order-system
 
 ## Теория
 
-Расширенная система заказов с менеджерами и клиентскими сущностями. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Расширенная система заказов с менеджерами и клиентскими сущностями. Практика собрана из реальных решений в каталоге `pr_Java/task24`.
 
-## Код
+## Код из решения
 
-```java title="Task24Example.java"
-public final class Task24Example {
-    private Task24Example() {
-    }
+```java title="Test.java"
+package task24;
 
-    public static String run() {
-        return "Task 24: module ready";
-    }
+import java.util.Arrays;
+import java.util.Scanner;
 
+import static task24.DrinkTypeEnum.Proverc;
+
+public class Test {
     public static void main(String[] args) {
-        System.out.println(run());
+        Scanner s = new Scanner(System.in);
+        Scanner r = new Scanner(System.in);
+        Scanner w = new Scanner(System.in);
+        MenuItem menuItem = new MenuItem();
+        double cost;
+        boolean bool = true;
+        String name, opis;
+        Scanner nomder = new Scanner(System.in);
+        System.out.println("Ввелитед 1 если вы делаете заказ в ресторане:\n" +
+                "Введите 2 если делаете заказ на сайте:\n" +
+                "Введите 3 если хотите популярные блюда ресторана:");
+        switch (nomder.nextInt()) {
+            case 1:
+                while (bool) {
+                    System.out.println("Что хотите добавить в заказ \n1 если еду: \n2 если напиток:");
+                    switch (nomder.nextInt()) {
+                        case 1:
+                            System.out.println("Введите название товара: ");
+                            name = r.nextLine();
+                            System.out.println("Введите цену товара: ");
+                            cost = s.nextDouble();
+                            System.out.println("Введите описание товара: ");
+                            opis = w.nextLine();
+                            Dish d = new Dish((int) cost, name, opis);
+                            menuItem.add(d);
+                            System.out.println("Ввелите 1 если вы хотите заказать еще или 0 если вы закончили с заказом");
+                            if (nomder.nextInt() == 1){
+                                bool = true;
+                                break;
+                            }else {
+                                bool=false;
+                                break;
+                            }
+                        case 2:
+                            System.out.println("Введите название напитка: ");
+                            name = r.nextLine();
+                            System.out.println("Введите цену напитка: ");
+                            cost = s.nextDouble();
+                            System.out.println("Введите описание напитка если он алкагольный введите AL: ");
+                            opis = w.nextLine();
+                            Drink dr = new Drink((int) cost, name, opis);
+                            menuItem.add(dr);
+                            System.out.println(Proverc(opis));
+                            System.out.println("Ввелите 1 если вы хотите заказать еще или 0 если вы закончили с заказом");
+                            if (nomder.nextInt() == 1){
+                                bool = true;
+                                break;
+                            }else {
+                                bool=false;
+                                break;
+                            }
+                    }
+                }
+                break;
+            case 2:
+                while (bool) {
+                    System.out.println("Что хотите добавить в заказ \n1 если еду: \n2 если напиток:");
+                    switch (nomder.nextInt()) {
+                        case 1:
+                            System.out.println("Введите название товара: ");
+                            name = r.nextLine();
+                            System.out.println("Введите цену товара: ");
+                            cost = s.nextDouble();
+                            System.out.println("Введите описание товара: ");
+                            opis = w.nextLine();
+                            Dish d = new Dish((int) cost, name, opis);
+                            menuItem.add(d);
+                            System.out.println("Ввелите 1 если вы хотите заказать еще или 0 если вы закончили с заказом");
+                            if (nomder.nextInt() == 1){
+                                bool = true;
+                                break;
+                            }else {
+                                bool=false;
+                                break;
+                            }
+                        case 2:
+                            System.out.println("Введите название напитка: ");
+                            name = r.nextLine();
+                            System.out.println("Введите цену напитка: ");
+                            cost = s.nextDouble();
+                            System.out.println("Введите описание напитка если он алкагольный введите AL: ");
+                            opis = w.nextLine();
+                            Drink dr = new Drink((int) cost, name, opis);
+                            menuItem.add(dr);
+                            System.out.println(Proverc(opis));
+                            System.out.println("Ввелите 1 если вы хотите заказать еще или 0 если вы закончили с заказом");
+                            if (nomder.nextInt() == 1){
+                                bool = true;
+                                break;
+                            }else {
+                                bool=false;
+                                break;
+                            }
+                    }
+                }
+                break;
+            case 3:
+                Dish dishOne = new Dish(10,"Название№1","Описание№1");
+                Dish dishTwo = new Dish(500,"Название№2","Описание№2");
+                Dish dishFree = new Dish(1000,"Название№3","Описание№3");
+                Drink drink = new Drink(120,"dsd","dsds");
+                menuItem.add(dishOne);
+                menuItem.add(dishTwo);
+                menuItem.add(dishFree);
+                menuItem.add(drink);
+        }
+        System.out.println(Arrays.stream(menuItem.itemsNames()).toList());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/task24/Address.java`
+- `pr_Java/task24/AlcohoTable.java`
+- `pr_Java/task24/Customer.java`
+- `pr_Java/task24/Dish.java`
+- `pr_Java/task24/Drink.java`
+- `pr_Java/task24/DrinkTypeEnum.java`
+- `pr_Java/task24/InternetOrder.java`
+- `pr_Java/task24/InternetOrdersManager.java`
+- `pr_Java/task24/MenuItem.java`
+- `pr_Java/task24/Order.java`
+- `pr_Java/task24/OrdersManager.java`
+- `pr_Java/task24/TableOrder.java`
+- `pr_Java/task24/TableOrdersManager.java`
+- `pr_Java/task24/Test.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/task24/`.
-
-## Важные моменты
+В этом модуле используется 14 Java-файлов. Ключевые сущности: Address, AlcohoTable, Customer, Dish, Drink, DrinkTypeEnum.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 24 — Финальный проект закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 24 — Финальный проект теперь отражает фактическую реализацию из `pr_Java/task24`, а не шаблонный пример.

@@ -7,41 +7,64 @@ slug: /java/task-21-queue-adts
 
 ## Теория
 
-Абстрактные типы данных и разные реализации очереди. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Абстрактные типы данных и разные реализации очереди. Практика собрана из реальных решений в каталоге `pr_Java/Task21`.
 
-## Код
+## Код из решения
 
-```java title="Task21Example.java"
-public final class Task21Example {
-    private Task21Example() {
-    }
+```java title="TestArray.java"
+package Task21;
 
-    public static String run() {
-        return "Task 21: module ready";
-    }
-
+public class TestArray {
     public static void main(String[] args) {
-        System.out.println(run());
+        ArrayQueueModule m = new ArrayQueueModule();
+       // b.dequeue();
+        m.enqueue(1);
+        m.enqueue(2);
+        m.enqueue(3);
+        m.enqueue(1);
+        m.enqueue(2);
+        System.out.println(m.size());
+        System.out.println(m.element());
+        System.out.println(m.dequeue());
+        System.out.println(m.isEmpty());
+        ArrayQueueADT a = new ArrayQueueADT(m);
+        System.out.println(a.size());
+        System.out.println(a.element());
+        System.out.println(a.dequeue());
+        System.out.println(a.isEmpty());
+        ArrayQueue q = new ArrayQueue();
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        q.enqueue(1);
+        q.enqueue(2);
+        System.out.println(q.size());
+        System.out.println(q.element());
+        System.out.println(q.dequeue());
+        System.out.println(q.isEmpty());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task21/AbstractQueue.java`
+- `pr_Java/Task21/ArrayQueue.java`
+- `pr_Java/Task21/ArrayQueueADT.java`
+- `pr_Java/Task21/ArrayQueueModule.java`
+- `pr_Java/Task21/LinkedQueue.java`
+- `pr_Java/Task21/Queue.java`
+- `pr_Java/Task21/TestArray.java`
+- `pr_Java/Task21/TestLinked.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task21/`.
-
-## Важные моменты
+В этом модуле используется 8 Java-файлов. Ключевые сущности: AbstractQueue, ArrayQueue, ArrayQueueADT, ArrayQueueModule, LinkedQueue, Queue.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 21 — Queue ADT закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 21 — Queue ADT теперь отражает фактическую реализацию из `pr_Java/Task21`, а не шаблонный пример.

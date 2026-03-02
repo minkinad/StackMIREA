@@ -1,47 +1,77 @@
 ---
 title: Практика 6.2 — Расширенные комбинаторы regex
 sidebar_position: 5
-description: Извлечение структурированных данных и повторное использование regex.
+description: "Мини-DLS парсера: sym, seq, range_of, alt и group."
 slug: /python/practice-6-2-regex-combinators
 ---
 
 ## Теория
 
-Следующий шаг после базовой валидации — извлечение данных через именованные группы и модульный подход к шаблонам.
+Практика продолжает функциональный подход и собирает парсер из маленьких функций-комбинаторов:
 
-## Код
+- `sym` и `range_of` читают символы;
+- `seq` задаёт последовательность;
+- `alt` задаёт альтернативы;
+- `group` выделяет захваченные части разбора.
 
-```python title="practice_6_2_regex.py"
-import re
+## Код из решения
 
-log_pattern = re.compile(
-    r"^(?P<date>\d{4}-\d{2}-\d{2})\s+"
-    r"(?P<level>INFO|WARN|ERROR)\s+"
-    r"(?P<message>.+)$"
-)
+```python title="pract6_2.ipynb (parser combinators)"
+def sym(c):
+    def parse(text, pos):
+        if pos < len(text) and text[pos] == c:
+            return pos + 1
+        return None
+    return parse
 
-line = "2026-02-10 ERROR Connection timeout"
-match = log_pattern.match(line)
-if match:
-    print(match.groupdict())
+def range_of(start, end):
+    def parse(text, pos):
+        if pos < len(text) and start <= text[pos] <= end:
+            return pos + 1
+        return None
+    return parse
+
+def alt(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            new_pos = p(text, pos)
+            if new_pos is not None:
+                return new_pos
+        return None
+    return parse
+
+def seq(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            pos = p(text, pos)
+            if pos is None:
+                return None
+        return pos
+    return parse
+
+digit = range_of('0', '9')
+hex_digit = alt(digit, range_of('a', 'f'), range_of('A', 'F'))
+hex_color = seq(sym('#'), hex_digit, hex_digit, hex_digit, hex_digit, hex_digit, hex_digit)
+
+print(hex_color('#ffaa43') is not None)
 ```
 
 ## Разбор
 
-Именованные группы (`?P<name>...`) делают результат парсинга более читаемым. Это удобно для конвейеров анализа логов и последующей сериализации данных.
+Комбинаторы позволяют прозрачно читать правила разбора и переиспользовать их как обычные функции. Это хорошая база для собственных DSL и простых интерпретаторов.
 
 Исходник практики: `pr_Python/pr_Python/pract6_2.ipynb`.
 
 ## Важные моменты
 
 :::tip
-Используйте именованные группы везде, где есть бизнес-сущности: дата, тип события, код ошибки.
+Собирайте сложный парсер из маленьких тестируемых блоков (`sym`, `alt`, `seq`) и фиксируйте примеры входных строк.
 :::
 
 :::warning
-Проверяйте шаблон на разных входных форматах, чтобы избежать ложных совпадений.
+В последних ячейках ноутбука часть функций дана как заготовка; для рабочего решения их нужно завершить и покрыть тестами.
 :::
 
 ## Вывод
 
-Практика закрепляет переход от валидации к полноценному извлечению и структурированию текстовых данных.
+Практика показывает, как описывать синтаксис декларативно через функции-комбинаторы и пошаговый разбор строки.

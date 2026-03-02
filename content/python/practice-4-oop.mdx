@@ -1,52 +1,81 @@
 ---
 title: Практика 4 — OOP
 sidebar_position: 2
-description: Инкапсуляция, объекты и методы в Python.
+description: Классы, AST-структуры и Visitor-подход на примерах из ноутбука.
 slug: /python/practice-4-oop
 ---
 
 ## Теория
 
-Объектно-ориентированное программирование позволяет описывать предметную область через классы и объекты. Базовые принципы: инкапсуляция, композиция и переиспользование поведения через методы.
+Практика построена вокруг трёх уровней ООП:
 
-## Код
+- простые классы с состоянием и методами;
+- композиция объектов в дереве выражений;
+- паттерн `Visitor` для разделения операций и структуры AST.
 
-```python title="practice_4_oop.py"
-class Student:
-    def __init__(self, name: str, score: float) -> None:
-        self.name = name
-        self.score = score
+## Код из решения
 
-    def passed(self) -> bool:
-        return self.score >= 60
+```python title="pract4.ipynb (AST + Visitor)"
+class Num:
+    def __init__(self, value):
+        self.value = value
 
+    def accept(self, visitor):
+        return visitor.visit_num(self)
 
-students = [
-    Student("Anna", 78),
-    Student("Nikita", 54),
-]
+class Add:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
 
-for student in students:
-    status = "passed" if student.passed() else "failed"
-    print(f"{student.name}: {status}")
+    def accept(self, visitor):
+        return visitor.visit_add(self)
+
+class Mul:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def accept(self, visitor):
+        return visitor.visit_mul(self)
+
+class PrintVisitor:
+    def visit_num(self, node):
+        return str(node.value)
+
+    def visit_add(self, node):
+        return f"({node.left.accept(self)} + {node.right.accept(self)})"
+
+    def visit_mul(self, node):
+        return f"({node.left.accept(self)} * {node.right.accept(self)})"
+
+class CalcVisitor:
+    def visit_num(self, node):
+        return node.value
+
+    def visit_add(self, node):
+        return node.left.accept(self) + node.right.accept(self)
+
+    def visit_mul(self, node):
+        return node.left.accept(self) * node.right.accept(self)
 ```
 
 ## Разбор
 
-Класс `Student` инкапсулирует состояние и поведение. Логика проверки результата (`passed`) находится внутри объекта, поэтому основной цикл остаётся чистым и понятным.
+`Num`, `Add`, `Mul` хранят только структуру выражения, а `PrintVisitor` и `CalcVisitor` реализуют разные операции над одним и тем же деревом. Это удобный шаблон, когда операции растут быстрее, чем количество типов узлов.
 
 Исходник практики: `pr_Python/pr_Python/pract4.ipynb`.
 
 ## Важные моменты
 
 :::tip
-Держите доменную логику внутри класса, а не в процедурном коде вокруг него.
+Если появляются несколько независимых операций (печать, вычисление, компиляция), выносите их в отдельных visitor-классы.
 :::
 
 :::warning
-Не перегружайте класс лишней ответственностью. Один класс должен решать одну задачу.
+Часть кода в ноутбуке учебная и не всегда production-ready; перед переносом в проект добавляйте типизацию и тесты.
 :::
 
 ## Вывод
 
-Практика закрепляет базовый ООП-подход и формирует привычку проектировать код вокруг объектов.
+Практика закрепляет переход от простых классов к объектной модели выражений с расширяемыми операциями.

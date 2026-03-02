@@ -7,41 +7,54 @@ slug: /java/task-16-exceptions
 
 ## Теория
 
-Обработка исключений и безопасное выполнение кода. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Обработка исключений и безопасное выполнение кода. Практика собрана из реальных решений в каталоге `pr_Java/Task16`.
 
-## Код
+## Код из решения
 
-```java title="Task16Example.java"
-public final class Task16Example {
-    private Task16Example() {
+```java title="Exception1.java"
+package Task16;
+
+public class Exception1 {
+    public static void exceptionDemo(){
+        System.out.println(2/0);
     }
-
-    public static String run() {
-        return "Task 16: module ready";
+    public static void exceptionDemo1(){
+        System.out.println(2.0/0.0);
     }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+    public static void exceptionDemo2(){
+        try {
+            System.out.println(2/0);
+        }catch (ArithmeticException e){
+            System.out.println("Attempted division by zero");
+        }
     }
-}
+        public static void main(String[] args){
+            exceptionDemo1();
+            exceptionDemo2();
+            exceptionDemo();
+        }
+    }
 ```
+
+## Что в исходниках
+
+- `pr_Java/Task16/Exception1.java`
+- `pr_Java/Task16/Exception2.java`
+- `pr_Java/Task16/Exception3.java`
+- `pr_Java/Task16/Exception4.java`
+- `pr_Java/Task16/ThrowsDemo5.java`
+- `pr_Java/Task16/ThrowsDemo6.java`
+- `pr_Java/Task16/ThrowsDemo7.java`
+- `pr_Java/Task16/ThrowsDemo8.java`
 
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task16/`.
-
-## Важные моменты
+В этом модуле используется 8 Java-файлов. Ключевые сущности: Exception1, Exception2, Exception3, Exception4, ThrowsDemo5, ThrowsDemo6.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 16 — Исключения закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 16 — Исключения теперь отражает фактическую реализацию из `pr_Java/Task16`, а не шаблонный пример.

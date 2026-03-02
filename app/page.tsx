@@ -1,51 +1,102 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Bot, Brain, Code2, Sigma } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
 const tracks = [
-  { title: "Python", href: "/docs/python", variant: "default" as const },
-  { title: "Java", href: "/docs/java", variant: "secondary" as const },
-  { title: "Algorithms", href: "/docs/algorithms", variant: "ghost" as const }
+  {
+    title: "Python",
+    subtitle: "Практики + ИИ-ноутбуки в формате документации",
+    href: "/docs/python",
+    icon: Bot
+  },
+  {
+    title: "Java",
+    subtitle: "24 практики по ООП, коллекциям, MVC и паттернам",
+    href: "/docs/java",
+    icon: Code2
+  },
+  {
+    title: "Algorithms",
+    subtitle: "Методические материалы и структурированные разборы",
+    href: "/docs/algorithms",
+    icon: Sigma
+  }
 ];
 
 export default function HomePage() {
   return (
-    <div className="mx-auto w-full max-w-[1440px] px-4 pb-24 pt-20 sm:px-6 lg:px-8">
-      <section className="mx-auto max-w-3xl text-center">
-        <p className="inline-flex animate-fade-up rounded-full border border-border/80 bg-card/70 px-3 py-1 text-xs text-muted-foreground">
-          Static-first documentation platform
-        </p>
-        <h1
-          className="mt-5 text-balance text-4xl font-semibold tracking-tight text-foreground opacity-0 sm:text-6xl"
-          style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "120ms" }}
-        >
-          Practice Make Perfect
-          <br />
-          Engineering Docs
-        </h1>
-        <p
-          className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-muted-foreground opacity-0 sm:text-lg"
-          style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "240ms" }}
-        >
-          Production-grade docs platform with MDX, Shiki highlighting and fully static export for GitHub Pages.
-        </p>
+    <div className="mx-auto w-full max-w-[1440px] px-4 pb-20 pt-14 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/65 px-6 py-14 sm:px-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-blue-500/15 blur-3xl" />
 
-        <div
-          className="mt-10 flex flex-col items-center justify-center gap-3 opacity-0 sm:flex-row"
-          style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "340ms" }}
-        >
-          {tracks.map((track) => (
-            <Link key={track.title} href={track.href} className="w-full sm:w-auto">
-              <Button variant={track.variant} className="w-full sm:w-auto">
-                {track.title}
-                <ArrowRight className="size-4" />
-              </Button>
+        <div className="relative mx-auto max-w-4xl">
+          <p className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+            <Brain className="size-3.5" />
+            StackMIREA documentation hub
+          </p>
+
+          <h1
+            className="mt-5 text-balance text-4xl font-semibold tracking-tight text-foreground opacity-0 sm:text-6xl"
+            style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "120ms" }}
+          >
+            Практики и ноутбуки
+            <br />
+            в едином формате docs
+          </h1>
+
+          <p
+            className="mt-6 max-w-3xl text-pretty text-base leading-7 text-muted-foreground opacity-0 sm:text-lg"
+            style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "220ms" }}
+          >
+            Учебные материалы StackMIREA: Python, Java и алгоритмы. Каждая страница оформлена как техническая документация с
+            кодом, разбором и привязкой к исходникам.
+          </p>
+
+          <div
+            className="mt-8 flex flex-col gap-3 opacity-0 sm:flex-row"
+            style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "320ms" }}
+          >
+            <Link href="/docs" className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}>
+              Открыть документацию
+              <ArrowRight className="size-4" />
             </Link>
-          ))}
+            <Link
+              href="/docs/python"
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full border-border/80 bg-background/70 sm:w-auto")}
+            >
+              Python трек
+            </Link>
+          </div>
         </div>
+      </section>
+
+      <section className="mt-10 grid gap-4 md:grid-cols-3">
+        {tracks.map((track, index) => {
+          const Icon = track.icon;
+          return (
+            <Link
+              key={track.title}
+              href={track.href}
+              className="group rounded-2xl border border-border/70 bg-card/70 p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:bg-card"
+              style={{ animation: "fade-up 660ms ease-out forwards", animationDelay: `${120 + index * 100}ms` }}
+            >
+              <div className="mb-4 inline-flex rounded-lg border border-border/70 bg-background/70 p-2 text-muted-foreground transition-colors group-hover:text-primary">
+                <Icon className="size-5" />
+              </div>
+              <h2 className="text-lg font-semibold tracking-tight">{track.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{track.subtitle}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-primary">
+                Перейти
+                <ArrowRight className="size-3.5" />
+              </span>
+            </Link>
+          );
+        })}
       </section>
     </div>
   );

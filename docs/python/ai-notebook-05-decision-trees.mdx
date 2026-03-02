@@ -1,0 +1,54 @@
+---
+title: AI Notebook 5 — Деревья решений
+sidebar_position: 10
+description: Бинарные деревья, классификация и регрессия деревом решений.
+slug: /python/ai-notebook-05-decision-trees
+---
+
+## Теория
+
+В тетради объединены структуры данных и ML-подходы на основе деревьев решений.
+
+## Код из решения
+
+```python title="Notebook5.ipynb (класс Rational)"
+class Rational:
+    @staticmethod
+    def gcd(a, b):
+        while b != 0:
+            a, b = b, a % b
+        return a
+
+    def __init__(self, n, d):
+        z = 1 if n * d >= 0 else -1
+        n, d = abs(n), abs(d)
+        k = self.gcd(n, d)
+        self.num = z * n // k
+        self.den = d // k
+```
+
+```python title="Notebook5.ipynb (DecisionTreeClassifier)"
+from sklearn.tree import DecisionTreeClassifier
+
+classifier = DecisionTreeClassifier()
+classifier.fit(x_train, y_train)
+y_pred = classifier.predict(x_test)
+```
+
+```python title="Notebook5.ipynb (DecisionTreeRegressor)"
+from sklearn.tree import DecisionTreeRegressor
+
+regressor = DecisionTreeRegressor()
+regressor.fit(x_train, y_train)
+y_pred = regressor.predict(x_test)
+```
+
+## Разбор
+
+Часть с деревьями как структурами данных помогает лучше понять, как работает дерево решений как ML-модель.
+
+Исходник: `pr_Python/Pr_Ai/Notebook5.ipynb`.
+
+## Вывод
+
+Notebook 5 связывает алгоритмическое и ML-представление деревьев в одном модуле.

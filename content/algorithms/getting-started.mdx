@@ -1,16 +1,16 @@
 ---
 title: Введение
-description: Навигация по учебной документации проекта Practice Make Perfect.
+description: Навигация по учебной документации проекта StackMIREA.
 slug: /intro
 ---
 
-# Practice Make Perfect Docs
+# StackMIREA Docs
 
 Этот сайт собирает практики в формате учебных модулей.
 
 Что внутри:
 
-- раздел `Python` с практиками по ООП, автоматизации и регулярным выражениям;
+- раздел `Python` с практиками по ООП/ФВП и отдельным блоком AI-ноутбуков;
 - раздел `Java` с 24 задачами: от основ до паттернов проектирования;
 - унифицированная структура каждой практики: теория, код, разбор, важные моменты и вывод.
 
@@ -39,4 +39,4 @@ slug: /intro
 
 - Python: `pr_Python/`
 - Java: `pr_Java/`
-- GitHub: [MinAleDm/Practice-Make-Perfect](https://github.com/MinAleDm/Practice-Make-Perfect)
+- GitHub: [MinAleDm/StackMIREA](https://github.com/MinAleDm/StackMIREA)

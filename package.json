@@ -1,8 +1,8 @@
 {
-  "name": "practice-make-perfect",
+  "name": "stackmirea-docs",
   "version": "2.0.0",
   "private": true,
-  "description": "Static-first documentation platform for Practice-Make-Perfect.",
+  "description": "Static-first documentation platform for StackMIREA.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

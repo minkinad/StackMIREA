@@ -7,41 +7,52 @@ slug: /java/task-05-interfaces-and-abstract-classes
 
 ## Теория
 
-Контракты поведения и разделение абстракций от реализации. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Контракты поведения и разделение абстракций от реализации. Практика собрана из реальных решений в каталоге `pr_Java/Task5`.
 
-## Код
+## Код из решения
 
-```java title="Task05Example.java"
-public final class Task05Example {
-    private Task05Example() {
-    }
+```java title="TestMovable.java"
+package Task5;
 
-    public static String run() {
-        return "Task 05: module ready";
-    }
+public class TestMovable {
+    public static void main(String[] args){
+        MovablePoint m1 = new MovablePoint(3, 4, 6, 7);
+        MovableRectangle r1 = new MovableRectangle(5,0,5, 0,9, 8);
 
-    public static void main(String[] args) {
-        System.out.println(run());
+        MovableCircle c1 = new MovableCircle(4, 6, 8, 9, 10);
+        //System.out.println(((MovableCircle)c1).toString());
+        System.out.println(r1);
+        c1.moveDown();
+        r1.moveUp();
+        m1.moveLeft();
+        //System.out.println(((MovableCircle)c1).toString());
+        System.out.println(r1);
+        //System.out.println(m1);
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task5/Circle.java`
+- `pr_Java/Task5/Movable.java`
+- `pr_Java/Task5/MovableCircle.java`
+- `pr_Java/Task5/MovablePoint.java`
+- `pr_Java/Task5/MovableRectangle.java`
+- `pr_Java/Task5/Rectangle.java`
+- `pr_Java/Task5/Shape.java`
+- `pr_Java/Task5/Square.java`
+- `pr_Java/Task5/TestMovable.java`
+- `pr_Java/Task5/TestShape.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task5/`.
-
-## Важные моменты
+В этом модуле используется 10 Java-файлов. Ключевые сущности: Circle, Movable, MovableCircle, MovablePoint, MovableRectangle, Rectangle.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 5 — Интерфейсы и абстрактные классы закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 5 — Интерфейсы и абстрактные классы теперь отражает фактическую реализацию из `pr_Java/Task5`, а не шаблонный пример.

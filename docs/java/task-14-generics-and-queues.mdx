@@ -7,41 +7,77 @@ slug: /java/task-14-generics-and-queues
 
 ## Теория
 
-Обобщения и безопасная работа с очередями. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Обобщения и безопасная работа с очередями. Практика собрана из реальных решений в каталоге `pr_Java/Task14`.
 
-## Код
+## Код из решения
 
-```java title="Task14Example.java"
-public final class Task14Example {
-    private Task14Example() {
-    }
+```java title="Main.java"
+package Task14;
 
-    public static String run() {
-        return "Task 14: module ready";
-    }
+import java.util.ArrayList;
 
-    public static void main(String[] args) {
-        System.out.println(run());
+public class Main {
+    static public void main(String[] args){
+        WaitList <String> wait = new WaitList<>();
+        ArrayList<String> al = new ArrayList<>();
+        al.add("O");
+        wait.add("L");
+        wait.add("O");
+        wait.add("L");
+        System.out.println(wait);
+        wait.remove();
+        System.out.println(wait);
+        System.out.println("Есть ли 'L' ? - " + wait.contains("L"));
+        al.add("D");
+        System.out.println("Есть ли 'D'? - " + wait.containsAll(al));
+        System.out.println("Список пуст ? - " +  wait.isEmpty());
+        System.out.println("------------------------------");
+        BoundedWaitList<String> bout = new BoundedWaitList<>(4);
+        bout.add("f");
+        bout.add("a");
+        bout.add("B");
+        bout.add("a");
+        bout.add("!");
+        System.out.println(bout);
+        bout.remove();
+        System.out.println(bout);
+        bout.add("!");
+        System.out.println(bout);
+        System.out.println("Объем списка: "+bout.getCapacity());
+        System.out.println("----------------------------");
+        UnfairWaitList<String> unf = new UnfairWaitList<>();
+        unf.add("L");
+        unf.add("O");
+        unf.add("T");
+        unf.add("p");
+        System.out.println(unf);
+        unf.remove("L");
+        System.out.println("Попытка удаления первого элемента: "+unf);
+        unf.remove("O");
+        System.out.println("Удаление элемента: "+unf);
+        unf.moveToBack("T");
+        System.out.println("Перенос элемента в конец: "+unf);
+
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task14/BoundedWaitList.java`
+- `pr_Java/Task14/IWaitList.java`
+- `pr_Java/Task14/Main.java`
+- `pr_Java/Task14/UnfairWaitList.java`
+- `pr_Java/Task14/WaitList.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task14/`.
-
-## Важные моменты
+В этом модуле используется 5 Java-файлов. Ключевые сущности: BoundedWaitList, IWaitList, Main, UnfairWaitList, WaitList.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 14 — Generics и очереди закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 14 — Generics и очереди теперь отражает фактическую реализацию из `pr_Java/Task14`, а не шаблонный пример.

@@ -7,41 +7,50 @@ slug: /java/task-09-nameable-priceable
 
 ## Теория
 
-Единые API для объектов с именем и ценой. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Единые API для объектов с именем и ценой. Практика собрана из реальных решений в каталоге `pr_Java/Task9`.
 
-## Код
+## Код из решения
 
-```java title="Task09Example.java"
-public final class Task09Example {
-    private Task09Example() {
+```java title="Dishes.java"
+package Task9;
+
+import java.awt.print.Printable;
+
+public class Dishes implements Priceable{
+    double price;
+    public Dishes(double price){
+        this.price = price;
     }
-
-    public static String run() {
-        return "Task 09: module ready";
+    @Override
+    public void getPrice() {
+        System.out.printf("Цена = %s", price);
+        //return price;
     }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+    public static void main(String[] args){
+        Priceable p = new Dishes(12345);
+        //System.out.println(p);
+        p.getPrice();
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task9/Car.java`
+- `pr_Java/Task9/Dishes.java`
+- `pr_Java/Task9/Dog.java`
+- `pr_Java/Task9/Nameable.java`
+- `pr_Java/Task9/Priceable.java`
+- `pr_Java/Task9/TestNameable.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task9/`.
-
-## Важные моменты
+В этом модуле используется 6 Java-файлов. Ключевые сущности: Car, Dishes, Dog, Nameable, Priceable, TestNameable.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 9 — Интерфейсы Nameable/Priceable закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 9 — Интерфейсы Nameable/Priceable теперь отражает фактическую реализацию из `pr_Java/Task9`, а не шаблонный пример.

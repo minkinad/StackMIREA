@@ -7,41 +7,62 @@ slug: /java/task-18-utilities-and-validation
 
 ## Теория
 
-Практика с матрицами, калькулятором и проверкой входных данных. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Практика с матрицами, калькулятором и проверкой входных данных. Практика собрана из реальных решений в каталоге `pr_Java/Task18`.
 
-## Код
+## Код из решения
 
-```java title="Task18Example.java"
-public final class Task18Example {
-    private Task18Example() {
+```java title="Calculator.java"
+package Task18;
+
+public class Calculator<T extends Number, V extends Number> {
+    private T a;
+    private V b;
+
+    public Calculator(T a, V b) {
+        this.a=a;
+        this.b=b;
     }
 
-    public static String run() {
-        return "Task 18: module ready";
+    public double sum(){
+        return a.doubleValue()+b.doubleValue();
     }
+    public double multiply(){
+        return a.doubleValue()*b.doubleValue();
+    }
+    public double divide(){
+        return a.doubleValue()-b.doubleValue();
+    }
+    public double subtraction(){
 
-    public static void main(String[] args) {
-        System.out.println(run());
+            return a.doubleValue() / b.doubleValue();
+
+    }
+    public static void main(String[] args){
+        Calculator<Integer, Integer> r = new Calculator<>(1, 0);
+        System.out.println("Сумма: "+r.sum());
+        System.out.println("Вычитание: " + r.divide());
+        System.out.println("Умножение: " +r.multiply());
+        System.out.println("Деление: " + r.subtraction());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task18/Animal.java`
+- `pr_Java/Task18/Calculator.java`
+- `pr_Java/Task18/Exeption1.java`
+- `pr_Java/Task18/Matrix.java`
+- `pr_Java/Task18/MinMax.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task18/`.
-
-## Важные моменты
+В этом модуле используется 5 Java-файлов. Ключевые сущности: Animal, Calculator, Exeption1, Matrix, MinMax.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 18 — Утилиты и валидация закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 18 — Утилиты и валидация теперь отражает фактическую реализацию из `pr_Java/Task18`, а не шаблонный пример.

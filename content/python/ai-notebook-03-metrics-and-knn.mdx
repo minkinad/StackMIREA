@@ -1,0 +1,50 @@
+---
+title: AI Notebook 3 — Метрики и KNN
+sidebar_position: 8
+description: Расстояния в пространствах признаков и классификация KNN.
+slug: /python/ai-notebook-03-metrics-and-knn
+---
+
+## Теория
+
+Тетрадь соединяет математическую базу (метрики расстояний) и простой классификатор ближайших соседей.
+
+## Код из решения
+
+```python title="Notebook3.ipynb (сумма диапазона)"
+def sum_range(start, end):
+    if start > end:
+        end, start = start, end
+    return sum(range(start, end + 1))
+
+print(sum_range(2, 12))
+```
+
+```python title="Notebook3.ipynb (3D-геометрия)"
+import numpy as np
+
+t1 = np.array([1, 1, 1])
+t2 = np.array([5, 3, 1])
+print(f'Вектор AB = {np.linalg.norm(t1 - t2)}')
+```
+
+```python title="Notebook3.ipynb (KNN на iris)"
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print(f'accuracy: {accuracy_score(y_test, y_pred):.3}')
+```
+
+## Разбор
+
+Практика строится по шагам: функции и метрики, затем визуализация и оценка качества классификации.
+
+Исходник: `pr_Python/Pr_Ai/Notebook3.ipynb`.
+
+## Вывод
+
+Notebook 3 закрепляет связь между геометрией признакового пространства и поведением KNN-модели.

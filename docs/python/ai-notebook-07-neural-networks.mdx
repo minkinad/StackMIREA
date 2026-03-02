@@ -1,0 +1,56 @@
+---
+title: AI Notebook 7 — Нейронные сети
+sidebar_position: 12
+description: Персептрон, простые нейросети и MLP из scikit-learn.
+slug: /python/ai-notebook-07-neural-networks
+---
+
+## Теория
+
+В тетради последовательно идут: собственная реализация персептрона, простая сеть на нейронах и готовые `MLPClassifier`/`MLPRegressor`.
+
+## Код из решения
+
+```python title="Notebook7.ipynb (персептрон)"
+class Perceptron:
+    def __init__(self, N):
+        self.w = [0 for _ in range(N)]
+
+    def calc(self, x):
+        return sum(self.w[i] * x[i] for i in range(len(self.w)))
+
+    def sign(self, x):
+        return 1 if self.calc(x) > 0 else -1
+
+    def learn(self, la, x, y):
+        if y * self.calc(x) <= 0:
+            for i in range(len(self.w)):
+                self.w[i] = self.w[i] + la * y * x[i]
+```
+
+```python title="Notebook7.ipynb (MLPClassifier)"
+from sklearn.neural_network import MLPClassifier
+
+mlp_classifier = MLPClassifier(random_state=123)
+mlp_classifier.fit(X_train, Y_train)
+Y_preds = mlp_classifier.predict(X_test)
+print('Test Accuracy: %.3f' % mlp_classifier.score(X_test, Y_test))
+```
+
+```python title="Notebook7.ipynb (MLPRegressor)"
+from sklearn.neural_network import MLPRegressor
+
+mlp_regressor = MLPRegressor(random_state=123)
+mlp_regressor.fit(X_train, Y_train)
+Y_preds = mlp_regressor.predict(X_test)
+```
+
+## Разбор
+
+Материал удобен тем, что можно сравнить ручную логику обучения и готовую библиотечную реализацию.
+
+Исходник: `pr_Python/Pr_Ai/Notebook7.ipynb`.
+
+## Вывод
+
+Notebook 7 закрывает базовый практический контур по нейросетям: от персептрона до MLP.

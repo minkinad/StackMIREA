@@ -1,44 +1,89 @@
 ---
 title: Практика 5 — Тестовая автоматизация
 sidebar_position: 3
-description: Проверка бизнес-логики с помощью автоматизированных тестов.
+description: Pytest, контекстные проверки, мутационное и контрактное тестирование.
 slug: /python/practice-5-test-automation
 ---
 
 ## Теория
 
-Автоматизированные тесты помогают фиксировать ожидаемое поведение кода и предотвращают регрессии после изменений.
+Практика объединяет несколько уровней контроля качества:
 
-## Код
+- спецификационные тесты для алгоритмов;
+- контекстный helper `raises` в стиле `pytest.raises`;
+- покрытие, мутационное тестирование и `deal`-контракты.
 
-```python title="test_discount.py"
-def calc_discount(price: float, percent: float) -> float:
-    if not 0 <= percent <= 100:
-        raise ValueError("percent must be in [0, 100]")
-    return round(price * (1 - percent / 100), 2)
+## Код из решения
 
+```python title="pract5.ipynb (custom raises)"
+class MealyError(Exception):
+    pass
 
-def test_calc_discount() -> None:
-    assert calc_discount(1000, 15) == 850
-    assert calc_discount(500, 0) == 500
+class RaisesContext:
+    def __init__(self, exception):
+        self.exception = exception
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is None:
+            raise AssertionError(f"{self.exception.__name__} was not raised")
+        if issubclass(exc_type, self.exception):
+            return True
+        raise AssertionError(f"Expected {self.exception.__name__}, but got {exc_type.__name__}")
+
+def raises(exception):
+    return RaisesContext(exception)
+```
+
+```python title="pract5.ipynb (contract programming)"
+import deal
+
+@deal.inv(lambda self: self.balance >= 0, "Баланс счета не может быть отрицательным")
+class BankAccount:
+    def __init__(self, account_number, balance=0):
+        self.account_number = account_number
+        self.balance = balance
+
+    @deal.post(lambda _, result: result > 0, "Сумма депозита должна быть положительной")
+    def deposit(self, amount):
+        self.balance += amount
+        return f"{amount} средств успешно зачислены на счет {self.account_number}"
+
+    @deal.post(lambda _, result: result > 0, "Сумма списания должна быть положительной")
+    def withdraw(self, amount):
+        self.balance -= amount
+        return f"{amount} средств успешно сняты с счета {self.account_number}"
+```
+
+```python title="pract5.ipynb (pytest for RLE)"
+import pytest
+from rle_functions import encode_rle, decode_rle
+
+def test_encode_rle():
+    assert encode_rle(b'AAAABBBCCDAA') == b'\\x04A\\x03B\\x02C\\x01D\\x02A'
+
+def test_decode_rle():
+    assert decode_rle(b'\\x04A\\x03B\\x02C\\x01D\\x02A') == b'AAAABBBCCDAA'
 ```
 
 ## Разбор
 
-Функция имеет чёткий контракт: валидный диапазон процента и детерминированный результат округления. Тесты описывают нормальные сценарии и упрощают рефакторинг.
+В одной тетради собраны сразу несколько подходов. Это полезно для сравнения: где достаточно обычного `pytest`, а где выгодно добавить инварианты и генерацию мутантов кода.
 
 Исходник практики: `pr_Python/pr_Python/pract5.ipynb`.
 
 ## Важные моменты
 
 :::tip
-Пишите тесты на поведение, а не на детали реализации.
+Разделяйте unit-тесты, контрактные проверки и property-based сценарии: их легче поддерживать по отдельности.
 :::
 
 :::warning
-Неполная проверка граничных случаев часто приводит к ошибкам в продакшене.
+В ноутбуке есть учебные примеры с ошибками реализации; перед использованием в проекте добавляйте ревью и прогон CI.
 :::
 
 ## Вывод
 
-Практика показывает, как минимальный набор тестов повышает стабильность и предсказуемость проекта.
+Практика показывает полный набор техник тестирования: от базовых assert'ов до контрактов и мутационного анализа.

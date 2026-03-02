@@ -1,6 +1,6 @@
-# Practice Make Perfect Docs
+# StackMIREA Docs
 
-Production-grade documentation platform on Next.js App Router with full static export for GitHub Pages.
+Документационный портал для практик и рабочих тетрадей StackMIREA на Next.js App Router со статической сборкой для GitHub Pages.
 
 ## Stack
 
@@ -15,13 +15,13 @@ Production-grade documentation platform on Next.js App Router with full static e
 
 Project is configured for deployment to:
 
-`https://MinAleDm.github.io/Practice-Make-Perfect/`
+`https://MinAleDm.github.io/StackMIREA/`
 
 Key settings are in `next.config.mjs`:
 
 - `output: "export"`
-- `basePath: "/Practice-Make-Perfect"` (production)
-- `assetPrefix: "/Practice-Make-Perfect/"` (production)
+- `basePath: "/StackMIREA"` (production)
+- `assetPrefix: "/StackMIREA/"` (production)
 - `trailingSlash: true`
 - `images.unoptimized: true`
 

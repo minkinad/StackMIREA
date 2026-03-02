@@ -7,41 +7,53 @@ slug: /java/task-22-design-patterns
 
 ## Теория
 
-Factory, Abstract Factory и MVC в прикладных задачах. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Factory, Abstract Factory и MVC в прикладных задачах. Практика собрана из реальных решений в каталоге `pr_Java/Task22`.
 
-## Код
+## Код из решения
 
-```java title="Task22Example.java"
-public final class Task22Example {
-    private Task22Example() {
-    }
+```java title="TestComplex.java"
+package Task22.one;
 
-    public static String run() {
-        return "Task 22: module ready";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+public class TestComplex {
+    public static void main(String[] args){
+        ComplexAbstractFactory c = new ConcreteFactory();
+        System.out.println(c.CreateComplex(1,7));
+        System.out.println(c.createComplex());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task22/one/Complex.java`
+- `pr_Java/Task22/one/ComplexAbstractFactory.java`
+- `pr_Java/Task22/one/ConcreteFactory.java`
+- `pr_Java/Task22/one/TestComplex.java`
+- `pr_Java/Task22/three/CarcasController.java`
+- `pr_Java/Task22/three/CarcasModel.java`
+- `pr_Java/Task22/three/CarcasView.java`
+- `pr_Java/Task22/three/CreateTextDoc.java`
+- `pr_Java/Task22/three/ICreateDocument.java`
+- `pr_Java/Task22/three/IDocument.java`
+- `pr_Java/Task22/three/TestWindow.java`
+- `pr_Java/Task22/three/TextDocument.java`
+- `pr_Java/Task22/two/AbstractChairFactory.java`
+- `pr_Java/Task22/two/Chair.java`
+- `pr_Java/Task22/two/ChairFactory.java`
+- `pr_Java/Task22/two/Client.java`
+- `pr_Java/Task22/two/FunctionalChair.java`
+- `pr_Java/Task22/two/MagicChair.java`
+- `pr_Java/Task22/two/TestChair.java`
+- `pr_Java/Task22/two/VictorianChair.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task22/`.
-
-## Важные моменты
+В этом модуле используется 20 Java-файлов. Ключевые сущности: Complex, ComplexAbstractFactory, ConcreteFactory, TestComplex, CarcasController, CarcasModel.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 22 — Паттерны проектирования закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 22 — Паттерны проектирования теперь отражает фактическую реализацию из `pr_Java/Task22`, а не шаблонный пример.

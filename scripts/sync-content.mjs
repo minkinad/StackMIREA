@@ -8,21 +8,21 @@ const contentRoot = path.join(projectRoot, "content");
 const SECTION_INDEX = {
   java: {
     file: "index.mdx",
-    body: `---\ntitle: Java\ndescription: Java track overview and tasks.\norder: 1\n---\n\n## Что внутри\n\n- 24 практики по Java\n- OOP, интерфейсы, MVC, паттерны проектирования\n- Структурированные примеры и разборы\n`
+    body: `---\ntitle: Java\ndescription: 24 Java-практики с кодом из реальных исходников.\norder: 1\n---\n\n## Что внутри\n\n- 24 практики по Java\n- OOP, интерфейсы, очереди, GUI, MVC, паттерны\n- Код и структура напрямую из \`pr_Java/\`\n`
   },
   python: {
     file: "index.mdx",
-    body: `---\ntitle: Python\ndescription: Python track overview and practices.\norder: 1\n---\n\n## Что внутри\n\n- Практики по OOP, автоматизации и regex\n- Примеры кода с разбором\n- Ссылки на исходники\n`
+    body: `---\ntitle: Python\ndescription: Практики Python и AI-ноутбуки в едином docs-формате.\norder: 1\n---\n\n## Что внутри\n\n- Практики по OOP, тестированию, ФВП и regex\n- AI-блок: Notebook1..Notebook8\n- Код и примеры из \`pr_Python/\`\n`
   },
   algorithms: {
     file: "index.mdx",
-    body: `---\ntitle: Algorithms\ndescription: Algorithms track and supporting materials.\norder: 1\n---\n\n## Что внутри\n\n- Базовые алгоритмические концепции\n- ToC, навигация и примеры кода\n`
+    body: `---\ntitle: Algorithms\ndescription: Вводные и вспомогательные материалы StackMIREA Docs.\norder: 1\n---\n\n## Что внутри\n\n- Введение и навигация по проекту\n- MDX-структура и правила оформления\n- Связь с Python и Java треками\n`
   }
 };
 
 const ALGORITHMS_GETTING_STARTED = `---
 title: Getting Started
-description: How to navigate this documentation platform.
+description: How to navigate StackMIREA documentation.
 order: 2
 ---
 

@@ -7,41 +7,48 @@ slug: /java/task-23-orders-and-menu
 
 ## Теория
 
-Моделирование меню, заказов и интерфейсов предметной области. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Моделирование меню, заказов и интерфейсов предметной области. Практика собрана из реальных решений в каталоге `pr_Java/Task23`.
 
-## Код
+## Код из решения
 
-```java title="Task23Example.java"
-public final class Task23Example {
-    private Task23Example() {
-    }
+```java title="Test.java"
+package Task23;
 
-    public static String run() {
-        return "Task 23: module ready";
-    }
+import java.util.Arrays;
 
+public class Test {
     public static void main(String[] args) {
-        System.out.println(run());
+        Order order = new Order(5);
+        order.add(new Dish(450,"Оливье","Холодное блюдо"));
+        order.add(new Dish(300,"Лимонад","Напиток"));
+        order.add(new Dish(600,"Рёбра","Горячее блюдо"));
+        order.add(new Dish(400,"Борщ","Горячее блюдо"));
+        System.out.println(order.remove("Лимонад"));
+        System.out.println(order.dishQuantity());
+        System.out.println(order.costTotal());
+        System.out.println(order.dishQuantity("Борщ"));
+        System.out.println(Arrays.stream(order.sortedDishesByCostDesc()).toList().toString());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task23/Dish.java`
+- `pr_Java/Task23/Drink.java`
+- `pr_Java/Task23/InternetOrder.java`
+- `pr_Java/Task23/Item.java`
+- `pr_Java/Task23/Order.java`
+- `pr_Java/Task23/Test.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task23/`.
-
-## Важные моменты
+В этом модуле используется 6 Java-файлов. Ключевые сущности: Dish, Drink, InternetOrder, Item, Order, Test.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 23 — Заказы и меню закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 23 — Заказы и меню теперь отражает фактическую реализацию из `pr_Java/Task23`, а не шаблонный пример.

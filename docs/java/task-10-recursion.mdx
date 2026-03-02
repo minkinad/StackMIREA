@@ -7,41 +7,65 @@ slug: /java/task-10-recursion
 
 ## Теория
 
-Рекурсивные алгоритмы и базовые условия остановки. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Рекурсивные алгоритмы и базовые условия остановки. Практика собрана из реальных решений в каталоге `pr_Java/Task10`.
 
-## Код
+## Код из решения
 
-```java title="Task10Example.java"
-public final class Task10Example {
-    private Task10Example() {
+```java title="Recursion11.java"
+package Task10;
+
+import java.util.Scanner;
+
+public class Recursion11 {
+    public static int Recurs(){
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        if (n==1){
+            int m = s.nextInt();
+            if (m == 1){
+                return Recurs()+n+m;
+            }
+            else{
+                int k = s.nextInt();
+                if(k == 1){
+                    return Recurs()+m+n+k;
+                }
+                else{
+                    return n+m+k;
+                }
+            }
+        }
+        else{
+            int m = s.nextInt();
+            if (m==1){
+                return Recurs()+m+n;
+            }
+            else{
+                return n+m;
+            }
+        }
     }
-
-    public static String run() {
-        return "Task 10: module ready";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+    public static void main(String[] args){
+        System.out.println(Recurs());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task10/Recursion11.java`
+- `pr_Java/Task10/Recursion12.java`
+- `pr_Java/Task10/Recursion13.java`
+- `pr_Java/Task10/Recursion14.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task10/`.
-
-## Важные моменты
+В этом модуле используется 4 Java-файлов. Ключевые сущности: Recursion11, Recursion12, Recursion13, Recursion14.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 10 — Рекурсия закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 10 — Рекурсия теперь отражает фактическую реализацию из `pr_Java/Task10`, а не шаблонный пример.

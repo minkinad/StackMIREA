@@ -7,41 +7,59 @@ slug: /java/task-17-gui-and-exceptions
 
 ## Теория
 
-Связка UI-слоя, доменной логики и пользовательских ошибок. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Связка UI-слоя, доменной логики и пользовательских ошибок. Практика собрана из реальных решений в каталоге `pr_Java/Task17`.
 
-## Код
+## Код из решения
 
-```java title="Task17Example.java"
-public final class Task17Example {
-    private Task17Example() {
+```java title="FIOINN.java"
+package Task17;
+
+import java.util.Scanner;
+
+public class FIOINN {
+    public void red() {
+        System.out.println("Введите ФИО");
+        Scanner fi = new Scanner(System.in);
+        String fio = fi.nextLine();
+        System.out.println("Введите ИНН");
+        Scanner in = new Scanner(System.in);
+        String[] inn = in.nextLine().split("");
+        try {
+            if (inn.length == 12) {
+                System.out.println("ИНН " + fio + " верный!");
+            } else {
+                throw new Proverka(fio);
+            }
+        }catch (Proverka e){
+            System.out.println(e.getMessage());
+        }
     }
-
-    public static String run() {
-        return "Task 17: module ready";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+    public static void main(String[] args){
+        FIOINN n = new FIOINN();
+        n.red();
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task17/EmptyStringException.java`
+- `pr_Java/Task17/FIOINN.java`
+- `pr_Java/Task17/LabClass.java`
+- `pr_Java/Task17/LabClassDriver.java`
+- `pr_Java/Task17/LabClassUI.java`
+- `pr_Java/Task17/Proverka.java`
+- `pr_Java/Task17/Student.java`
+- `pr_Java/Task17/StudentNotFoundException.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task17/`.
-
-## Важные моменты
+В этом модуле используется 8 Java-файлов. Ключевые сущности: EmptyStringException, FIOINN, LabClass, LabClassDriver, LabClassUI, Proverka.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 17 — GUI + исключения закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 17 — GUI + исключения теперь отражает фактическую реализацию из `pr_Java/Task17`, а не шаблонный пример.

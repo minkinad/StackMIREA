@@ -8,7 +8,7 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./lib/**/*.{ts,tsx}",
     "./content/**/*.{md,mdx}",
-    "./styles/**/*.{css}"
+    "./styles/**/*.css"
   ],
   theme: {
     extend: {

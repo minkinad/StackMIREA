@@ -1,0 +1,47 @@
+---
+title: AI Notebook 8 — Кластеризация
+sidebar_position: 13
+description: KMeans и иерархическая кластеризация на учебных датасетах.
+slug: /python/ai-notebook-08-clustering
+---
+
+## Теория
+
+Тетрадь посвящена обучению без учителя: разбиению объектов на группы по похожести.
+
+## Код из решения
+
+```python title="Notebook8.ipynb (KMeans)"
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+
+x, y_true = make_blobs(n_samples=400, centers=4, cluster_std=0.60, random_state=0)
+kmeans = KMeans(n_clusters=4)
+kmeans.fit(x)
+y_kmeans = kmeans.predict(x)
+```
+
+```python title="Notebook8.ipynb (кластеризация iris)"
+from sklearn.datasets import load_iris
+
+X = load_iris()
+kmeans = KMeans(n_clusters=4, random_state=0)
+clusters = kmeans.fit_predict(X.data)
+```
+
+```python title="Notebook8.ipynb (AgglomerativeClustering)"
+from sklearn.cluster import AgglomerativeClustering
+
+cluster = AgglomerativeClustering(n_clusters=4, affinity='euclidean', linkage='ward')
+cluster.fit_predict(data)
+```
+
+## Разбор
+
+Показаны два подхода: центроидный (`KMeans`) и иерархический (`AgglomerativeClustering`) с визуальной интерпретацией результатов.
+
+Исходник: `pr_Python/Pr_Ai/Notebook8.ipynb`.
+
+## Вывод
+
+Notebook 8 завершает AI-блок методами unsupervised-анализа и сравнением стратегий кластеризации.

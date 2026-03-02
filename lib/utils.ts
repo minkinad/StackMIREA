@@ -1,14 +1,14 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export const SITE_NAME = "Practice Make Perfect";
+export const SITE_NAME = "StackMIREA";
 export const SITE_DESCRIPTION =
   "Production-grade documentation platform for Python, Java and algorithms practices.";
 export const REPO_OWNER = "MinAleDm";
-export const REPO_NAME = "Practice-Make-Perfect";
+export const REPO_NAME = "StackMIREA";
 export const DEFAULT_BRANCH = "main";
 export const SITE_ORIGIN = "https://minaledm.github.io";
-export const BASE_PATH = "/Practice-Make-Perfect";
+export const BASE_PATH = "/StackMIREA";
 export const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 export const DOCS_ROOT = "/docs";
 export const GITHUB_EDIT_ROOT = `${REPO_URL}/edit/${DEFAULT_BRANCH}/content`;

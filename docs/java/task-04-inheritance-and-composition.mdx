@@ -7,41 +7,40 @@ slug: /java/task-04-inheritance-and-composition
 
 ## Теория
 
-Переиспользование поведения через наследование и композицию. На этом этапе важно держать архитектуру модулей предсказуемой: классы с одной ответственностью, явные контракты и прозрачные зависимости.
+Переиспользование поведения через наследование и композицию. Практика собрана из реальных решений в каталоге `pr_Java/Task4`.
 
-## Код
+## Код из решения
 
-```java title="Task04Example.java"
-public final class Task04Example {
-    private Task04Example() {
-    }
+```java title="BookTest.java"
+package Task4;
 
-    public static String run() {
-        return "Task 04: module ready";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(run());
+public class BookTest {
+    public static void main(String[] args){
+        Book b = new Book("Lev", "Man", 2000);
+        b.setAuthor("Pol");
+        b.setName("Dog");
+        b.setYear(2000);
+        System.out.println("Author: "+b.getAuthor()+" name: "+b.getName()+" Year: "+b.getYear());
     }
 }
 ```
 
+## Что в исходниках
+
+- `pr_Java/Task4/Book.java`
+- `pr_Java/Task4/BookTest.java`
+- `pr_Java/Task4/Circle.java`
+- `pr_Java/Task4/CircleTest.java`
+- `pr_Java/Task4/Human.java`
+
 ## Разбор
 
-Пример демонстрирует минимальный исполняемый модуль с изолированной точкой входа. В реальной задаче логика выносится в отдельные классы и тестируется независимо от `main`.
-
-Исходники практики: `pr_Java/Task4/`.
-
-## Важные моменты
+В этом модуле используется 5 Java-файлов. Ключевые сущности: Book, BookTest, Circle, CircleTest, Human.
 
 :::tip
-Дробите задачу на небольшие классы и методы: это ускоряет разработку и снижает количество дефектов.
-:::
-
-:::warning
-Смешивание UI, бизнес-логики и работы с данными в одном классе быстро усложняет сопровождение.
+Для проверки практики сначала запускайте тестовый/демо-класс из папки задачи, затем расширяйте модель новыми кейсами.
 :::
 
 ## Вывод
 
-Task 4 — Наследование и композиция закрепляет практический шаблон разработки: сначала контракт, затем реализация и только потом расширение функциональности.
+Task 4 — Наследование и композиция теперь отражает фактическую реализацию из `pr_Java/Task4`, а не шаблонный пример.
