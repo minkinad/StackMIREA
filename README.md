@@ -1,136 +1,72 @@
-# StackMIREA Docs
+# StackMIREA
 
-Документационный портал для практик и рабочих тетрадей StackMIREA на Next.js App Router со статической сборкой для GitHub Pages.
+[![Deploy to GitHub Pages](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml)
+[![Next.js 14](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![License: MIT](https://img.shields.io/github/license/MinAleDm/StackMIREA)](https://github.com/MinAleDm/StackMIREA/blob/main/LICENSE)
 
-## Stack
+## About
+StackMIREA — это интерактивная образовательная платформа и цифровая методичка для студентов IT-направления МИРЭА. Проект собирает практические задания, готовые решения, теорию и разборы задач в единой, удобной для изучения структуре.
 
+## Features
+- Документация в формате MDX с поддержкой кода и callout-блоков.
+- Отдельные треки: `python`, `ai`, `java`, `algorithms`.
+- Автогенерация sidebar и навигации по структуре файлов.
+- Подсветка кода (Shiki) + кнопка копирования.
+- Статическая сборка и деплой на GitHub Pages.
+
+## Tech Stack
 - Next.js (App Router, static export)
 - TypeScript
-- TailwindCSS
-- shadcn/ui patterns
-- MDX
+- Tailwind CSS
+- MDX (`next-mdx-remote`, `remark-gfm`, `rehype-slug`)
 - Shiki
 
-## GitHub Pages Requirements
+## Live
+- Production: `https://minaledm.github.io/StackMIREA/`
 
-Project is configured for deployment to:
-
-`https://MinAleDm.github.io/StackMIREA/`
-
-Key settings are in `next.config.mjs`:
-
-- `output: "export"`
-- `basePath: "/StackMIREA"` (production)
-- `assetPrefix: "/StackMIREA/"` (production)
-- `trailingSlash: true`
-- `images.unoptimized: true`
-
-## Project Structure
-
-```text
-app/
-  layout.tsx
-  page.tsx
-  not-found.tsx
-  robots.ts
-  sitemap.ts
-  docs/
-    page.tsx
-    [...slug]/
-      page.tsx
-
-components/
-  layout/
-    Header.tsx
-    Sidebar.tsx
-    Toc.tsx
-    Footer.tsx
-  ui/
-    Breadcrumbs.tsx
-    Pagination.tsx
-    Callout.tsx
-    ThemeToggle.tsx
-    CodeBlock.tsx
-    CodeBlockClient.tsx
-    button.tsx
-
-content/
-  python/
-  java/
-  algorithms/
-
-lib/
-  mdx.ts
-  navigation.ts
-  toc.ts
-  utils.ts
-
-styles/
-  docs.css
-
-scripts/
-  sync-content.mjs
-
-.github/workflows/
-  deploy-gh-pages.yml
-```
-
-## Local Development
-
+## Quick Start
 ```bash
 npm ci
 npm run dev
 ```
 
-## Build
+Open `http://localhost:3000`.
 
-```bash
-npm run build
+## Scripts
+- `npm run dev` — локальная разработка
+- `npm run content:sync` — синхронизация `docs/` -> `content/`
+- `npm run build` — production build + static export в `out/`
+- `npm run lint` — lint
+- `npm run typecheck` — проверка TypeScript
+
+## Project Structure
+```text
+app/
+components/
+content/
+  ai/
+  python/
+  java/
+  algorithms/
+docs/
+lib/
+styles/
+scripts/
+.github/workflows/
 ```
 
-Output is generated in `out/`.
+## Deployment (GitHub Pages)
+Деплой выполняется автоматически через GitHub Actions workflow:
+- `.github/workflows/deploy-gh-pages.yml`
 
-## Content Pipeline
+Требование для репозитория:
+1. `Settings` -> `Pages`
+2. `Build and deployment` -> `Source: GitHub Actions`
 
-Before each build:
+После пуша в `main` сайт публикуется автоматически.
 
-```bash
-npm run content:sync
-```
+## Contributing
+Issue и PR приветствуются. Для крупных изменений лучше сначала открыть issue с описанием идеи.
 
-This syncs legacy `docs/` materials into `content/` and ensures section index pages exist.
-
-## Deployment (GitHub Actions)
-
-Workflow: `.github/workflows/deploy-gh-pages.yml`
-
-Pipeline:
-
-1. Checkout
-2. Setup Node.js 20
-3. `npm ci`
-4. `npm run build`
-5. `npm run export` (informational step; static export already produced by build)
-6. Deploy `out/` to `gh-pages`
-
-## GitHub Pages Setup
-
-1. Open repository settings.
-2. Go to `Pages`.
-3. Set source branch to `gh-pages`.
-4. Keep folder as `/ (root)`.
-5. Push to `main` to trigger deployment.
-
-## Docs Features
-
-- Auto sidebar generation from filesystem
-- Auto ToC generation from `h2/h3`
-- Active heading tracking
-- Breadcrumbs
-- Prev/next pagination
-- Edit on GitHub link
-- Shiki highlighting with copy button and filename support
-- MDX callouts (`info`, `warning`, `tip`, `note`)
-- Dark theme by default
-- SEO metadata + OpenGraph + Twitter cards
-- Static `sitemap.xml`, `robots.txt`, and custom `404`
+## License
+MIT — see [LICENSE](./LICENSE).

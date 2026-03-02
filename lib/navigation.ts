@@ -44,8 +44,9 @@ interface DocsIndex {
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const SECTION_ORDER: Record<string, number> = {
   python: 1,
-  java: 2,
-  algorithms: 3
+  ai: 2,
+  java: 3,
+  algorithms: 4
 };
 
 let cachedDocsIndex: DocsIndex | null = null;

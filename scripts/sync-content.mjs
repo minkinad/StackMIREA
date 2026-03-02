@@ -8,11 +8,15 @@ const contentRoot = path.join(projectRoot, "content");
 const SECTION_INDEX = {
   java: {
     file: "index.mdx",
-    body: `---\ntitle: Java\ndescription: 24 Java-практики с кодом из реальных исходников.\norder: 1\n---\n\n## Что внутри\n\n- 24 практики по Java\n- OOP, интерфейсы, очереди, GUI, MVC, паттерны\n- Код и структура напрямую из \`pr_Java/\`\n`
+    body: `---\ntitle: Java\ndescription: 24 Java-практики с решениями в формате задания и разбора.\norder: 1\n---\n\n## Что внутри\n\n- 24 практики по Java\n- OOP, интерфейсы, очереди, GUI, MVC, паттерны\n- Задание, решение и описание для каждой практики\n`
   },
   python: {
     file: "index.mdx",
-    body: `---\ntitle: Python\ndescription: Практики Python и AI-ноутбуки в едином docs-формате.\norder: 1\n---\n\n## Что внутри\n\n- Практики по OOP, тестированию, ФВП и regex\n- AI-блок: Notebook1..Notebook8\n- Код и примеры из \`pr_Python/\`\n`
+    body: `---\ntitle: Python\ndescription: Практические работы по Python в формате MDX-документации.\norder: 1\n---\n\n## Что внутри\n\n- Практика 4: OOP и AST\n- Практика 5: тестирование и валидация\n- Практика 6 и 6.2: комбинаторы и функциональный стиль\n- Полный перенос тетрадей в \`docs/python\` и \`content/python\`\n`
+  },
+  ai: {
+    file: "index.mdx",
+    body: `---\ntitle: AI\ndescription: Рабочие тетради по искусственному интеллекту из Pr_Ai в формате MDX.\norder: 1\n---\n\n## Что внутри\n\n- Ноутбуки Notebook1..Notebook8\n- Теория, код и выводы из исходных тетрадей\n- Материалы по NumPy, pandas, ML, нейросетям и кластеризации\n`
   },
   algorithms: {
     file: "index.mdx",
@@ -39,11 +43,36 @@ order: 2
 
 ## Дальше
 
-Откройте разделы Python и Java через главную страницу.
+Откройте разделы Python, AI и Java через главную страницу.
 `;
 
 function ensureDirectory(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
+}
+
+function clearMarkdownFiles(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    return;
+  }
+
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+
+    if (entry.isDirectory()) {
+      clearMarkdownFiles(fullPath);
+
+      if (fs.readdirSync(fullPath).length === 0) {
+        fs.rmdirSync(fullPath);
+      }
+      continue;
+    }
+
+    if (entry.isFile() && /\.(md|mdx)$/i.test(entry.name)) {
+      fs.unlinkSync(fullPath);
+    }
+  }
 }
 
 function walk(dirPath) {
@@ -84,6 +113,7 @@ function writeFileIfMissing(filePath, content) {
 
 function main() {
   ensureDirectory(contentRoot);
+  clearMarkdownFiles(contentRoot);
 
   if (fs.existsSync(docsRoot)) {
     const sourceFiles = walk(docsRoot);

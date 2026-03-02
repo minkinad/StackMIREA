@@ -5,13 +5,23 @@ description: Сортировка и сравнение объектов по м
 slug: /java/task-11-sorting-students
 ---
 
-## Теория
+## Задание
 
-Сортировка и сравнение объектов по метрикам. Практика собрана из реальных решений в каталоге `pr_Java/Task11`.
+Сортировка и сравнение объектов по метрикам. Документация собрана по исходному коду этой практики.
 
-## Код из решения
+## Решение
 
-```java title="Connection.java"
+Полный код решения по этой практике:
+
+### Исходные файлы решения
+
+- `Task11/Connection.java`
+- `Task11/SortingStudentsByGPA.java`
+- `Task11/Student.java`
+
+#### `Task11/Connection.java`
+
+```java title="Task11/Connection.java"
 package Task11;
 
 import java.util.ArrayList;
@@ -85,15 +95,98 @@ public class Connection {
         return result;
     }
 }
+
+
 ```
 
-## Что в исходниках
+#### `Task11/SortingStudentsByGPA.java`
 
-- `pr_Java/Task11/Connection.java`
-- `pr_Java/Task11/SortingStudentsByGPA.java`
-- `pr_Java/Task11/Student.java`
+```java title="Task11/SortingStudentsByGPA.java"
+package Task11;
+import java.util.*;
+public class SortingStudentsByGPA implements Comparable<SortingStudentsByGPA>{
+    public String name;
+    public int bal;
 
-## Разбор
+    public SortingStudentsByGPA(String name, int bal) {
+        this.name = name;
+        this.bal = bal;
+    }
+
+    @Override
+    public int compareTo(SortingStudentsByGPA o) {
+        return o.bal - this.bal;
+    }
+    public static void main(String[] args){
+        List<SortingStudentsByGPA> r = new ArrayList<>();
+        r.add(new SortingStudentsByGPA("Nicolai", 123));
+        r.add(new SortingStudentsByGPA("Oleg", 200));
+        r.add(new SortingStudentsByGPA("Sasha", 260));
+        r.add(new SortingStudentsByGPA("Nikita", 250));
+        Collections.sort(r);
+        for (SortingStudentsByGPA s : r){
+            System.out.println(s.name+ " Баллы "+s.bal);
+        }
+    }
+}
+
+
+
+```
+
+#### `Task11/Student.java`
+
+```java title="Task11/Student.java"
+package Task11;
+
+public class Student {
+    String name;
+    int iDNumber;
+
+    public Student(String name, int iDNumber) {
+        this.name = name;
+        this.iDNumber = iDNumber;
+    }
+    public void setName(String name){
+        this.name=name;
+    }
+    public String getName(){
+        return name;
+    }
+    public int getiDNumber() {
+        return iDNumber;
+    }
+    public void setiDNumber(int iDNumber) {
+        this.iDNumber = iDNumber;
+    }
+    public static void main(String[] args){
+        Student[] s = new Student[6];
+        s[0]=new Student("Sol",1);
+        s[1]=new Student("Pol",2);
+        s[2]=new Student("Kol",3);
+        s[3]=new Student("Tol",7);
+        s[4]=new Student("Fol",0);
+        s[5]=new Student("Rol",4);
+        for(int i = 1; i < s.length; i++){
+            Student current = s[i];
+            int j = i-1;
+            while (j>=0 && s[j].getiDNumber() > current.getiDNumber()){
+                s[j+1]=s[j];
+                j--;
+            }
+            s[j+1]=current;
+        }
+        System.out.println("     ");
+        for(Student f: s){
+            System.out.println("Name: "+f.getName()+" id: "+f.getiDNumber());
+        }
+    }
+}
+
+```
+
+
+## Описание
 
 В этом модуле используется 3 Java-файлов. Ключевые сущности: Connection, SortingStudentsByGPA, Student.
 
@@ -103,4 +196,4 @@ public class Connection {
 
 ## Вывод
 
-Task 11 — Сортировка студентов теперь отражает фактическую реализацию из `pr_Java/Task11`, а не шаблонный пример.
+Task 11 — Сортировка студентов документирует реальное решение из исходного кода.

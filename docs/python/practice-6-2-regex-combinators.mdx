@@ -1,26 +1,191 @@
 ---
-title: Практика 6.2 — Расширенные комбинаторы regex
+title: "Практика 6.2 — Расширенные комбинаторы regex"
 sidebar_position: 5
-description: "Мини-DLS парсера: sym, seq, range_of, alt и group."
-slug: /python/practice-6-2-regex-combinators
+description: "Дополнительные задания по комбинаторному и функциональному подходу."
+slug: "/python/practice-6-2-regex-combinators"
 ---
 
-## Теория
+> Источник: `pr_Python/pr_Python/pract6_2.ipynb`
 
-Практика продолжает функциональный подход и собирает парсер из маленьких функций-комбинаторов:
+# 4. Комбинаторы регулярных выражений
+Реализуйте простой встроенный язык подмножества регулярных выражений с помощью ФВП. Комбинаторы имеют следующий общий вид:
+```
+def comb(param, ...):
+    def parse(text, ...):
+        ...
+        return new_text, ...
+    return parse
+  ```
 
-- `sym` и `range_of` читают символы;
-- `seq` задаёт последовательность;
-- `alt` задаёт альтернативы;
-- `group` выделяет захваченные части разбора.
+````python
+def char(c):
+    def parse(text, pos):
+        if pos >= len(text) or text[pos] != c:
+            return text, pos
+        return text, pos + 1
+    return parse
 
-## Код из решения
+def seq(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            text, pos = p(text, pos)
+            if pos == -1:
+                return text, pos
+        return text, pos
+    return parse
 
-```python title="pract6_2.ipynb (parser combinators)"
+def alt(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            new_text, new_pos = p(text, pos)
+            if new_pos != -1:
+                return new_text, new_pos
+        return text, -1
+    return parse
+
+def rep(p):
+    def parse(text, pos):
+        while pos < len(text):
+            text, pos = p(text, pos)
+        return text, pos
+    return parse
+
+def opt(p):
+    def parse(text, pos):
+        new_text, new_pos = p(text, pos)
+        return new_text, new_pos if new_pos != -1 else pos
+    return parse
+
+
+parse_a = char('a')
+parse_b = char('b')
+
+parser = seq(rep(parse_a), opt(parse_b))
+
+result = parser("aaabbaa", 0)
+if result[1] == -1:
+    print("Failed to parse")
+else:
+    print("Parsed successfully")
+````
+
+## 4.1. (уровень сложности: высокий)
+
+Реализуйте комбинаторы sym (разобрать символ) и seq (разобрать последовательность).
+
+Пример использования:
+
+```
+text = 'abc'
+re1 = seq(sym('a'), sym('b'), sym('c'))
+re2 = seq(sym('a'), sym('z'), sym('c'))
+
+print(re1(text) is not None)
+print(re2(text) is not None)
+
+```
+
+```
+True
+False
+```
+
+````python
 def sym(c):
     def parse(text, pos):
         if pos < len(text) and text[pos] == c:
             return pos + 1
+        return None
+    return parse
+
+def seq(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            pos = p(text, pos)
+            if pos is None:
+                return None
+        return pos
+    return parse
+
+text = 'abc'
+re1 = seq(sym('a'), sym('b'), sym('c'))
+re2 = seq(sym('a'), sym('z'), sym('c'))
+
+print(re1(text) is not None)
+print(re2(text) is not None)
+````
+
+## 4.2. (уровень сложности: средний)
+
+Реализуйте комбинатор range_of (разобрать диапазон символов).
+
+Пример использования:
+
+```
+digit = range_of('0', '9')
+number = seq(digit, digit)
+
+print(number('42') is not None)
+print(number('ab') is not None)
+```
+
+```
+True
+False
+```
+
+````python
+def range_of(start, end):
+    def parse(text, pos):
+        if pos < len(text) and start <= text[pos] <= end:
+            return pos + 1
+        return None
+    return parse
+
+def seq(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            pos = p(text, pos)
+            if pos is None:
+                return None
+        return pos
+    return parse
+
+digit = range_of('0', '9')
+number = seq(digit, digit)
+
+print(number('42') is not None)
+print(number('ab') is not None)
+````
+
+## 4.3. (уровень сложности: высокий)
+
+Реализуйте комбинатор alt (альтернатива).
+
+Пример использования:
+
+```
+digit = range_of('0', '9')
+hex_digit = alt(digit, range_of('a', 'f'), range_of('A', 'F'))
+space = alt(sym(' '), sym('\n'), sym('\t'))
+hex_color = seq(sym('#'), hex_digit, hex_digit, hex_digit, hex_digit, hex_digit, hex_digit)
+
+print(hex_color('#ffaa43') is not None)
+print(hex_color('#xxxxxx') is not None)
+```
+
+```
+True
+False
+```
+
+````python
+def alt(*parsers):
+    def parse(text, pos):
+        for p in parsers:
+            new_pos = p(text, pos)
+            if new_pos is not None:
+                return new_pos
         return None
     return parse
 
@@ -31,12 +196,10 @@ def range_of(start, end):
         return None
     return parse
 
-def alt(*parsers):
+def sym(char):
     def parse(text, pos):
-        for p in parsers:
-            new_pos = p(text, pos)
-            if new_pos is not None:
-                return new_pos
+        if pos < len(text) and text[pos] == char:
+            return pos + 1
         return None
     return parse
 
@@ -51,27 +214,63 @@ def seq(*parsers):
 
 digit = range_of('0', '9')
 hex_digit = alt(digit, range_of('a', 'f'), range_of('A', 'F'))
+space = alt(sym(' '), sym('\n'), sym('\t'))
 hex_color = seq(sym('#'), hex_digit, hex_digit, hex_digit, hex_digit, hex_digit, hex_digit)
 
 print(hex_color('#ffaa43') is not None)
+print(hex_color('#xxxxxx') is not None)
+````
+
+## 4.4. (уровень сложности: высокий)
+
+Реализуйте комбинатор group (группировка) для извлечения разобранных фрагментов.
+
+Пример использования:
+
+```
+digit = range_of('0', '9')
+hex_digit = alt(digit, range_of('a', 'f'), range_of('A', 'F'))
+space = alt(sym(' '), sym('\n'), sym('\t'))
+hex_color = seq(sym('#'), group(seq(hex_digit, hex_digit, hex_digit, hex_digit, hex_digit, hex_digit)))
+hex_colors = seq(hex_color, sym(' '), hex_color)
+
+print(hex_colors('#ffaa43 #123456', []))
 ```
 
-## Разбор
+```
+('', ['ffaa43', '123456'])
+```
 
-Комбинаторы позволяют прозрачно читать правила разбора и переиспользовать их как обычные функции. Это хорошая база для собственных DSL и простых интерпретаторов.
+````python
+def group(rule):
+    def inner(text, start):
+        result, end = rule(text, start)
+        if result:
+            return ([result], end)
+        return (result, end)
+    return inner
 
-Исходник практики: `pr_Python/pr_Python/pract6_2.ipynb`.
+def alt(*args):
+    pass
 
-## Важные моменты
+def range_of(start, end):
+    pass
 
-:::tip
-Собирайте сложный парсер из маленьких тестируемых блоков (`sym`, `alt`, `seq`) и фиксируйте примеры входных строк.
-:::
+def sym(char):
+    pass
 
-:::warning
-В последних ячейках ноутбука часть функций дана как заготовка; для рабочего решения их нужно завершить и покрыть тестами.
-:::
+def seq(*args):
+    pass
 
-## Вывод
+digit = range_of('0', '9')
+hex_digit = alt(digit, range_of('a', 'f'), range_of('A', 'F'))
+space = alt(sym(' '), sym('\n'), sym('\t'))
+hex_color = seq(sym('#'), group(seq(hex_digit, hex_digit, hex_digit, hex_digit, hex_digit, hex_digit)))
+hex_colors = seq(hex_color, sym(' '), hex_color)
 
-Практика показывает, как описывать синтаксис декларативно через функции-комбинаторы и пошаговый разбор строки.
+def parse_hex_colors(text, start):
+    result, end = hex_colors(text, start)
+    return ('', result)
+
+print(parse_hex_colors('#ffaa43 #123456', 0))
+````

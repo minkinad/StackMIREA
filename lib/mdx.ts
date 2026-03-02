@@ -30,22 +30,26 @@ function transformCodeFences(source: string) {
 
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
-    const openFence = /^```(.*)$/.exec(line.trim());
+    const openFence = /^(`{3,}|~{3,})(.*)$/.exec(line.trim());
 
     if (!openFence) {
       output.push(line);
       continue;
     }
 
+    const fence = openFence[1];
+    const fenceChar = fence[0];
+    const minFenceLength = fence.length;
+    const closeFencePattern = new RegExp(`^${fenceChar}{${minFenceLength},}\\s*$`);
     const codeLines: string[] = [];
     index += 1;
 
-    while (index < lines.length && !lines[index].trim().startsWith("```")) {
+    while (index < lines.length && !closeFencePattern.test(lines[index].trim())) {
       codeLines.push(lines[index]);
       index += 1;
     }
 
-    const { lang, filename } = parseCodeInfo(openFence[1] ?? "");
+    const { lang, filename } = parseCodeInfo(openFence[2] ?? "");
     const code = codeLines.join("\n");
     const filenameAttribute = filename ? ` filename="${escapeHtmlAttribute(filename)}"` : "";
 

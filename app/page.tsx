@@ -9,15 +9,21 @@ export const dynamic = "force-static";
 const tracks = [
   {
     title: "Python",
-    subtitle: "Практики + ИИ-ноутбуки в формате документации",
+    subtitle: "Практики по OOP, тестированию и функциональному стилю",
     href: "/docs/python",
+    icon: Code2
+  },
+  {
+    title: "AI",
+    subtitle: "Ноутбуки Notebook1..Notebook8 по курсу ИИ",
+    href: "/docs/ai",
     icon: Bot
   },
   {
     title: "Java",
     subtitle: "24 практики по ООП, коллекциям, MVC и паттернам",
     href: "/docs/java",
-    icon: Code2
+    icon: Brain
   },
   {
     title: "Algorithms",
@@ -53,8 +59,8 @@ export default function HomePage() {
             className="mt-6 max-w-3xl text-pretty text-base leading-7 text-muted-foreground opacity-0 sm:text-lg"
             style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "220ms" }}
           >
-            Учебные материалы StackMIREA: Python, Java и алгоритмы. Каждая страница оформлена как техническая документация с
-            кодом, разбором и привязкой к исходникам.
+            Учебные материалы StackMIREA: отдельные треки Python, AI, Java и Algorithms. Каждая страница оформлена как
+            техническая документация с кодом, разбором и привязкой к исходникам.
           </p>
 
           <div
@@ -75,7 +81,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-3">
+      <section className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {tracks.map((track, index) => {
           const Icon = track.icon;
           return (
