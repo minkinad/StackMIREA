@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpenText, Github, Home, Users } from "lucide-react";
 
+import siteLogo from "@/public/favicon.png";
 import { REPO_URL, SITE_NAME } from "@/lib/utils";
 
 export function Header() {
@@ -9,8 +10,8 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/92 backdrop-blur-md">
       <div className="mx-auto flex h-14 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
-            <Image src="/favicon.png" alt={`${SITE_NAME} logo`} width={20} height={20} className="rounded-sm" priority />
+          <Link href="/" className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold tracking-tight text-foreground">
+            <Image src={siteLogo} alt={`${SITE_NAME} logo`} width={20} height={20} className="rounded-sm" priority />
             {SITE_NAME}
           </Link>
 
