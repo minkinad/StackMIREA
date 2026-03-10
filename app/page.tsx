@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Brain, Code2, Database, Sigma } from "lucide-react";
+import { ArrowRight, Bot, Brain, Code2, Database, ExternalLink, GitPullRequest, ListChecks, Sigma } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,47 @@ const tracks = [
     subtitle: "Методические материалы и структурированные разборы",
     href: "/docs/algorithms",
     icon: Sigma
+  }
+];
+
+const publicationRules = [
+  {
+    title: "Публикуй материал в нужный трек",
+    description: "Размещай файл в соответствующем разделе: `python`, `ai`, `bigdata`, `java` или `algorithms`."
+  },
+  {
+    title: "Соблюдай единый формат",
+    description: "Используй понятную структуру: цель, шаги решения, код, результат и краткие выводы."
+  },
+  {
+    title: "Оформляй кодовые примеры",
+    description: "Добавляй язык в код-блоки и оставляй только воспроизводимые, проверенные фрагменты."
+  },
+  {
+    title: "Фиксируй контекст и источники",
+    description: "Если материал опирается на внешние источники, обязательно оставляй ссылки и пояснения."
+  },
+  {
+    title: "Проверяй изменения перед PR",
+    description: "Перед публикацией запускай `npm run lint` и `npm run typecheck`, чтобы не ломать сборку."
+  }
+];
+
+const pullRequestLinks = [
+  {
+    title: "Создать Pull Request",
+    href: "https://github.com/MinAleDm/StackMIREA/compare?expand=1",
+    description: "Откроет форму сравнения веток и создания PR для публикации."
+  },
+  {
+    title: "Все Pull Request",
+    href: "https://github.com/MinAleDm/StackMIREA/pulls",
+    description: "Список открытых и закрытых PR по проекту."
+  },
+  {
+    title: "Открытые Pull Request",
+    href: "https://github.com/MinAleDm/StackMIREA/pulls?q=is%3Apr+is%3Aopen",
+    description: "Быстрый фильтр для проверки, что уже находится на ревью."
   }
 ];
 
@@ -110,6 +151,59 @@ export default function HomePage() {
             </Link>
           );
         })}
+      </section>
+
+      <section className="mt-10 grid gap-4 lg:grid-cols-2">
+        <article className="rounded-2xl border border-border/70 bg-card/70 p-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+            <ListChecks className="size-3.5" />
+            Правила публикации
+          </div>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight">Как публиковать материалы в StackMIREA</h2>
+          <ol className="mt-5 space-y-4">
+            {publicationRules.map((rule, index) => (
+              <li key={rule.title} className="flex gap-3 rounded-xl border border-border/70 bg-background/60 p-4">
+                <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                  {index + 1}
+                </span>
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">{rule.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">{rule.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </article>
+
+        <article className="rounded-2xl border border-border/70 bg-card/70 p-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+            <GitPullRequest className="size-3.5" />
+            Публикация через PR
+          </div>
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight">Ссылки на Pull Request</h2>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            Для публикации открывай PR с изменениями в документации. В описании укажи, что именно добавлено и в каком
+            треке лежит материал.
+          </p>
+
+          <div className="mt-5 space-y-3">
+            {pullRequestLinks.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-start justify-between gap-3 rounded-xl border border-border/70 bg-background/60 p-4 transition-colors hover:border-primary/40"
+              >
+                <span>
+                  <span className="block text-sm font-semibold text-foreground">{item.title}</span>
+                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">{item.description}</span>
+                </span>
+                <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+              </a>
+            ))}
+          </div>
+        </article>
       </section>
     </div>
   );
