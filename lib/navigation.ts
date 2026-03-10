@@ -52,7 +52,21 @@ const SECTION_ORDER: Record<string, number> = {
   ai: 2,
   bigdata: 3,
   java: 4,
-  algorithms: 5
+  algorithms: 5,
+  "procedural-programming": 6,
+  "object-oriented-programming": 7,
+  "data-structures-and-algorithms-part-1": 8,
+  react: 9,
+  "data-structures-and-algorithms-part-2": 10,
+  "configuration-management": 11,
+  "systems-analysis-and-conceptual-modeling-part-1": 12,
+  "software-application-development-part-1": 13,
+  "internet-of-things": 14,
+  "business-process-modeling": 15,
+  "database-development": 16,
+  "software-testing-and-verification": 17,
+  "system-administration": 18,
+  "project-management": 19
 };
 
 let cachedDocsIndex: DocsIndex | null = null;

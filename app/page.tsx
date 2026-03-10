@@ -37,13 +37,97 @@ const tracks = [
     subtitle: "Методические материалы и структурированные разборы",
     href: "/docs/algorithms",
     icon: Sigma
+  },
+  {
+    title: "Процедурное программирование",
+    subtitle: "Базовые конструкции, декомпозиция и процедурный стиль",
+    href: "/docs/procedural-programming",
+    icon: Code2
+  },
+  {
+    title: "Объектно ориентированное программирование",
+    subtitle: "Классы, инкапсуляция, наследование и полиморфизм",
+    href: "/docs/object-oriented-programming",
+    icon: Brain
+  },
+  {
+    title: "Структуры и алгоритмы обработки данных (часть 1)",
+    subtitle: "Введение в структуры данных и базовые алгоритмы",
+    href: "/docs/data-structures-and-algorithms-part-1",
+    icon: Sigma
+  },
+  {
+    title: "React",
+    subtitle: "Компонентная разработка и построение интерфейсов",
+    href: "/docs/react",
+    icon: Bot
+  },
+  {
+    title: "Структуры и алгоритмы обработки данных (часть 2)",
+    subtitle: "Продвинутые алгоритмы и анализ производительности",
+    href: "/docs/data-structures-and-algorithms-part-2",
+    icon: Sigma
+  },
+  {
+    title: "Конфигурационное управление",
+    subtitle: "Версионирование, окружения и управление изменениями",
+    href: "/docs/configuration-management",
+    icon: GitPullRequest
+  },
+  {
+    title: "Анализ и концептуальное моделирование систем (часть 1)",
+    subtitle: "Системный анализ, требования и концептуальные модели",
+    href: "/docs/systems-analysis-and-conceptual-modeling-part-1",
+    icon: Database
+  },
+  {
+    title: "Технология разработки программных приложений (часть 1)",
+    subtitle: "Процессы, паттерны и практики разработки приложений",
+    href: "/docs/software-application-development-part-1",
+    icon: Code2
+  },
+  {
+    title: "Интернет вещей",
+    subtitle: "IoT-архитектуры, обмен данными и интеграции устройств",
+    href: "/docs/internet-of-things",
+    icon: Bot
+  },
+  {
+    title: "Моделирование бизнес процессов",
+    subtitle: "Модели процессов, роли, события и оптимизация",
+    href: "/docs/business-process-modeling",
+    icon: Database
+  },
+  {
+    title: "Разработка баз данных",
+    subtitle: "Проектирование схем, SQL и практика работы с БД",
+    href: "/docs/database-development",
+    icon: Database
+  },
+  {
+    title: "Тестирование и верификация ПО",
+    subtitle: "Unit/Integration тестирование и контроль качества",
+    href: "/docs/software-testing-and-verification",
+    icon: ListChecks
+  },
+  {
+    title: "Системное администрирование",
+    subtitle: "Серверы, сервисы, сети и эксплуатация инфраструктуры",
+    href: "/docs/system-administration",
+    icon: Brain
+  },
+  {
+    title: "Управление проектами",
+    subtitle: "Планирование, сроки, риски и командные процессы",
+    href: "/docs/project-management",
+    icon: GitPullRequest
   }
 ];
 
 const publicationRules = [
   {
     title: "Публикуй материал в нужный трек",
-    description: "Размещай файл в соответствующем разделе: `python`, `ai`, `bigdata`, `java` или `algorithms`."
+    description: "Размещай файл в соответствующем разделе документации и соблюдай структуру текущего трека."
   },
   {
     title: "Соблюдай единый формат",
@@ -107,8 +191,8 @@ export default function HomePage() {
             className="mt-6 max-w-3xl text-pretty text-base leading-7 text-muted-foreground opacity-0 sm:text-lg"
             style={{ animation: "fade-up 720ms ease-out forwards", animationDelay: "220ms" }}
           >
-            Учебные материалы StackMIREA: отдельные треки Python, AI, BigData, Java и Algorithms. Каждая страница
-            оформлена как техническая документация с кодом, разбором и привязкой к исходникам.
+            Учебные материалы StackMIREA по ключевым IT-дисциплинам. Каждая страница оформлена как техническая
+            документация с кодом, разбором и привязкой к исходникам.
           </p>
 
           <div
@@ -129,7 +213,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+      <section className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5">
         {tracks.map((track, index) => {
           const Icon = track.icon;
           return (
