@@ -15,7 +15,7 @@ slug: /procedural-programming/homework-05-number-theory-and-combinatorics
 
 **Как устроено решение.** Сохранённый код идёт не через классический цикл Евклида с остатком, а через перебор делителей от `min(a, b)` вниз до `1`. Как только находится общий делитель, программа печатает его и завершает работу.
 
-```cpp title="resources/procedural-programming/dz 5/51 DONE.cpp"
+```cpp title="resources/procedural-programming/home-work-5/51 DONE.cpp"
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -39,7 +39,7 @@ int main(){
 
 **Что учесть.** Это решение реализует не решето Эратосфена в чистом виде, а прямую проверку на простоту. Кроме того, `2` здесь не выводится, потому что цикл начинается с `3`.
 
-```cpp title="resources/procedural-programming/dz 5/52 DONE.cpp"
+```cpp title="resources/procedural-programming/home-work-5/52 DONE.cpp"
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -66,7 +66,7 @@ int main() {
 
 **Как устроено решение.** Код открывает файл `123.txt`, считает частоты для заранее заданного массива букв, затем выбирает индекс максимального значения и печатает количество вхождений вместе с самой буквой.
 
-```cpp title="resources/procedural-programming/dz 5/5.3.cpp"
+```cpp title="resources/procedural-programming/home-work-5/5.3.cpp"
 #include <iostream>
 #include <fstream>
 #include <conio.h>
@@ -179,7 +179,7 @@ int main()
 
 **Что учесть.** Это уже полноценная рекурсивная задача на перебор перестановок. Решение сохраняет идею из формулировки и работает для произвольного `n`, хотя на больших значениях факториальный рост быстро делает перебор тяжёлым.
 
-```cpp title="resources/procedural-programming/dz 5/5.6.cpp"
+```cpp title="resources/procedural-programming/home-work-5/5.6.cpp"
 #include <iostream>
 #include <vector>
 using namespace std;

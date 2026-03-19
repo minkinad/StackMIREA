@@ -5,16 +5,6 @@ description: "Неподконтрольное обучение и методы 
 slug: "/ai/notebook-08-clustering"
 ---
 
-> Источник: `pr_Python/Pr_Ai/Notebook8.ipynb`
-
-Дисциплина «Искусственный интеллект»
-
-Рабочая тетрадь № 8.
-
-**Петрушенко Александр Дмитриевич**
-
-Разработка заданий
-
 **Теоретический материал - Кластеризация**
 
 Кластеризация — разбиение множества объектов на подмножества, называемые кластерами. Кластеризация, будучи математическим алгоритм имеет широкое применение во многих сферах: начиная с таких естественно научных областей как биология и физиология, и заканчивая маркетингом в социальных сетях и поисковой оптимизацией. Цель – разделить данные таким образом, чтобы точки, находящие в одном и том же кластере, были очень схожи друг с другом, а точки, находящиеся в разных кластерах, отличались друг от друга. Как и алгоритмы классификации, алгоритмы кластеризации присваивают (или прогнозируют) каждой точке данных номер кластера, которому она принадлежит.
@@ -50,14 +40,6 @@ plt.scatter(x[:, 0], x[:, 1], s=20)
 plt.show()
 ````
 
-Вывод:
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 ````python
 # Затем создадим объектт KMeans вместе с указанием количества кластеров
 # и обучим модель и сделаем прогноз следующим образом:
@@ -72,19 +54,6 @@ centers = kmeans.cluster_centers_
 plt.scatter(centers[:, 0], centers[:, 1], c='blue', s=100, alpha=.9)
 plt.show()
 ````
-
-Вывод:
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-````
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
 
 *1.1.1 Пример*
 
@@ -105,7 +74,7 @@ digits.data.shape
 
 Вывод:
 
-````text
+````code
 (1797, 64)
 ````
 
@@ -118,12 +87,12 @@ kmeans.cluster_centers_.shape
 
 Вывод:
 
-````text
+````code
 /usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
   warnings.warn(
 ````
 
-````text
+````code
 (10, 64)
 ````
 
@@ -134,14 +103,6 @@ for axi, center in zip(ax.flat, centers):
     axi.set(xticks=[], yticks=[])
     axi.imshow(center, interpolation='nearest', cmap=plt.cm.binary)
 ````
-
-Вывод:
-
-````text
-<Figure size 800x300 with 10 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
 
 **Задание 1**
 
@@ -163,7 +124,6 @@ def cluster_analysis(x, clusters):
     plt.scatter(centers[:, 0], centers[:, 1], c='blue', s=100, alpha=.9)
     plt.show()
 
-
 X = np.array([[5, 3],
              [10, 15],
              [15, 15],
@@ -178,49 +138,12 @@ cluster_analysis(X, 4) # количество кластеров = 4
 cluster_analysis(X, 10) # количество кластеров = 10
 ````
 
-Вывод:
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-````
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-````
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 **Задание 2**
 
 Выполните кластеризацию для набора данных ирисов Фишера. Выполните предсказания для модели. Поэкспериментируйте с количеством кластеров.
 
 ````python
 from sklearn.datasets import load_iris
-
 
 def clusterization(x, amount):
     print(x.data.shape)
@@ -234,50 +157,13 @@ def clusterization(x, amount):
         axi.set(xticks=[], yticks=[])
         axi.imshow(center, interpolation='nearest', cmap=plt.cm.binary)
 
-
 X = load_iris()
 clusterization(X, 4)
 ````
 
-Вывод:
-
-````text
-(150, 4)
-(4, 4)
-````
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-````
-
-````text
-<Figure size 1000x300 with 4 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 ````python
 clusterization(X, 10)
 ````
-
-Вывод:
-
-````text
-(150, 4)
-(10, 4)
-````
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-````
-
-````text
-<Figure size 1000x300 with 10 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
 
 **Теоретический материал - Иерархическая кластеризация**
 
@@ -304,14 +190,6 @@ for label, x, y in zip(labels, X[:, 0], X[:, 1]):
 plt.show()
 ````
 
-Вывод:
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 Далее построим дендрограмму для точек данных с помощью библиотеки Scipy
 
 ````python
@@ -324,14 +202,6 @@ dendrogram(linked, orientation='top', labels=label_list, distance_sort='descendi
 plt.show()
 ````
 
-Вывод:
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 Далее нам нужно импортировать класс для кластеризации и вызвать его метод fit_predict для прогнозирования кластера.
 
 ````python
@@ -340,23 +210,6 @@ cluster = AgglomerativeClustering(n_clusters=2, affinity='euclidean', linkage='w
 cluster.fit_predict(X)
 plt.scatter(X[:, 0], X[:, 1], c=cluster.labels_, cmap='rainbow')
 ````
-
-Вывод:
-
-````text
-/usr/local/lib/python3.10/dist-packages/sklearn/cluster/_agglomerative.py:983: FutureWarning: Attribute `affinity` was deprecated in version 1.2 and will be removed in 1.4. Use `metric` instead
-  warnings.warn(
-````
-
-````text
-<matplotlib.collections.PathCollection at 0x7ff4cda53b50>
-````
-
-````text
-<Figure size 640x480 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
 
 **Пример**
 
@@ -378,7 +231,7 @@ customer_data.head()
 
 Вывод:
 
-````text
+````code
    CustomerID   Genre  Age  Annual Income (k$)  Spending Score (1-100)
 0           1    Male   19                  15                      39
 1           2    Male   21                  15                      81
@@ -393,7 +246,7 @@ customer_data.shape
 
 Вывод:
 
-````text
+````code
 (200, 5)
 ````
 
@@ -413,14 +266,6 @@ plt.title('Customer Dendrograms')
 dend = shc.dendrogram(shc.linkage(data, method='ward'))
 ````
 
-Вывод:
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 Если мы нарисуем горизонтальную линию, которая проходит через самое длинное расстояние без горизонтальной линии, мы получим 5 кластеров. Теперь мы знаем количество кластеров для нашего набора данных, следующим шагом будет группировка точек данных в эти пять кластеров.
 
 Для этого мы снова воспользуемся классом AgglomerativeClustering библиотеки sklearn.cluster.
@@ -434,12 +279,12 @@ cluster.fit_predict(data)
 
 Вывод:
 
-````text
+````code
 /usr/local/lib/python3.10/dist-packages/sklearn/cluster/_agglomerative.py:983: FutureWarning: Attribute `affinity` was deprecated in version 1.2 and will be removed in 1.4. Use `metric` instead
   warnings.warn(
 ````
 
-````text
+````code
 array([4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3,
        4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 1,
        4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -459,18 +304,6 @@ plt.figure(figsize=(10, 7))
 plt.scatter(data[:, 0], data[:, 1], c=cluster.labels_, cmap='rainbow')
 ````
 
-Вывод:
-
-````text
-<matplotlib.collections.PathCollection at 0x7ff49073eda0>
-````
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 **Задание**
 
 Выполните иерархическую кластеризацию для набора данных об ирисах Фишера. При этом необходимо использовать любые два признака (всего их четыре).
@@ -488,7 +321,7 @@ data.head()
 
 Вывод:
 
-````text
+````code
    sepal length (cm)  sepal width (cm)  petal length (cm)  petal width (cm)
 0                5.1               3.5                1.4               0.2
 1                4.9               3.0                1.4               0.2
@@ -503,7 +336,7 @@ data.shape
 
 Вывод:
 
-````text
+````code
 (150, 4)
 ````
 
@@ -518,14 +351,6 @@ plt.title('Iris Dendrograms')
 dend = shc.dendrogram(shc.linkage(data, method='ward'))
 ````
 
-Вывод:
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
-
 ````python
 from sklearn.cluster import AgglomerativeClustering
 
@@ -538,17 +363,8 @@ plt.scatter(data[:, 0], data[:, 1], c=cluster.labels_, cmap='rainbow')
 
 Вывод:
 
-````text
+````code
 /usr/local/lib/python3.10/dist-packages/sklearn/cluster/_agglomerative.py:983: FutureWarning: Attribute `affinity` was deprecated in version 1.2 and will be removed in 1.4. Use `metric` instead
   warnings.warn(
 ````
 
-````text
-<matplotlib.collections.PathCollection at 0x7ff490b34ac0>
-````
-
-````text
-<Figure size 1000x700 with 1 Axes>
-````
-
-> Графический вывод (изображение) опущен в версии MDX.
