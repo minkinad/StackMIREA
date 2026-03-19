@@ -1,27 +1,51 @@
-[![Deploy to GitHub Pages](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml)
+[![Deploy Docs to GitHub Pages](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml)
+[![Node.js >= 20](https://img.shields.io/badge/Node.js-%3E%3D20-000000?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 # StackMIREA
 
-StackMIREA - образовательная платформа и документационный хаб для IT-дисциплин МИРЭА. Проект вырос из набора треков Python/AI/Java в полноценную многораздельную docs-платформу с единым UX, статическим деплоем и поддержкой авторства материалов.
+StackMIREA - статическая образовательная docs-платформа для IT-дисциплин МИРЭА. Проект объединяет учебные треки, практики, ноутбуки и методические материалы в единый интерфейс с навигацией, поиском, страницами авторов и публикацией через GitHub Pages.
 
-## Масштаб проекта (март 2026)
-- 19 учебных треков в едином формате.
-- 67 страниц MD/MDX в `content/` (включая разделы-индексы).
-- 48 учебных материалов помимо индексных страниц.
-- Крупные треки: `java` (26 страниц), `ai` (10), `bigdata` (9), `python` (6).
+## Что сейчас есть в проекте
 
-## Ключевые возможности
-- Единый docs-интерфейс на Next.js App Router.
-- Автосборка навигации и sidebar по структуре `content/`.
-- TOC, breadcrumbs и пагинация между материалами.
-- Подсветка кода через Shiki и клиентская кнопка копирования.
-- Семантический поиск `Спроси StackMIREA` по build-time индексу из `content/`.
-- Страница авторов с агрегацией публикаций по разделам.
-- Ссылка `Edit on GitHub` на каждой странице.
+- 19 учебных треков в единой структуре.
+- 72 MD/MDX-страницы в `content/`.
+- 53 отдельных учебных материала помимо индексных страниц.
+- Крупнейшие треки: `java` (26 страниц), `ai` (10), `bigdata` (9), `python` (6).
 - Статическая публикация на GitHub Pages через GitHub Actions.
 
-## Треки
+## Ключевые возможности
+
+- Docs-интерфейс на Next.js App Router со статическим экспортом в production.
+- Автосборка навигации, sidebar, breadcrumbs и пагинации по структуре `content/`.
+- Рендеринг MDX-материалов с поддержкой callout-блоков и подсветкой кода через Shiki.
+- Страница `Спроси StackMIREA` с локальным семантическим поиском по build-time индексу.
+- Страница авторов с агрегированием публикаций по разделам.
+- Ссылки `Edit on GitHub` для быстрого перехода к редактированию материалов.
+- Разделение между исходным слоем `docs/` и runtime-слоем `content/`.
+
+## Технологии
+
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+- MDX через `next-mdx-remote`, `remark-gfm`, `rehype-slug`
+- Shiki для подсветки кода
+
+## Структура контента
+
+- `docs/` - исходные материалы, которые редактируются вручную.
+- `content/` - синхронизированный слой, который использует приложение.
+- `npm run content:sync` - переносит материалы из `docs/` в `content/`.
+- `npm run search:build` - собирает `public/search-index.json` для страницы поиска.
+- `npm run prepare:content` - выполняет синхронизацию и сборку поискового индекса.
+- `npm run build` автоматически запускает `prepare:content` через `prebuild`.
+- `npm run dev` автоматически запускает `prepare:content` через `predev`.
+
+## Учебные треки
+
 - `python`
 - `ai`
 - `bigdata`
@@ -42,44 +66,31 @@ StackMIREA - образовательная платформа и докумен
 - `system-administration`
 - `project-management`
 
-## Архитектура контента
-- Исходные учебные материалы хранятся в `docs/`.
-- Скрипт `npm run content:sync` синхронизирует `docs/` -> `content/`.
-- Во время `npm run build` синхронизация запускается автоматически (`prebuild`).
-- Навигация, карточки разделов и статические страницы строятся из `content/`.
+## Быстрый старт
 
-## Tech Stack
-- Next.js 14 (App Router, static export в production)
-- React 18 + TypeScript
-- Tailwind CSS
-- MDX (`next-mdx-remote`, `remark-gfm`, `rehype-slug`)
-- Shiki
+Требование: `Node.js >= 20`.
 
-## Live
-- Production: `https://minaledm.github.io/StackMIREA/`
-
-## Quick Start
 ```bash
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Локально проект будет доступен на `http://localhost:3000`.
 
-Требование: `Node.js >= 20` (см. `engines` в `package.json`).
+## Скрипты
 
-## Scripts
-- `npm run dev` — локальная разработка
-- `npm run build` — production build (в production режиме экспортирует статический сайт в `out/`)
-- `npm run start` — локальный запуск собранного статического `out/` на `:3000`
-- `npm run prepare:content` — синхронизация `docs/` и сборка поискового индекса
-- `npm run content:sync` — синхронизация `docs/` -> `content/`
-- `npm run search:build` — генерация `public/search-index.json` для страницы `Спроси StackMIREA`
-- `npm run lint` — проверка ESLint
-- `npm run typecheck` — проверка TypeScript
-- `npm run export` — информационный скрипт (экспорт выполняется внутри `npm run build`)
+- `npm run dev` - локальная разработка.
+- `npm run build` - production build со статическим экспортом в `out/`.
+- `npm run start` - локальный запуск собранной статической версии на `:3000`.
+- `npm run lint` - проверка ESLint.
+- `npm run typecheck` - проверка TypeScript.
+- `npm run prepare:content` - синхронизация контента и сборка поискового индекса.
+- `npm run content:sync` - синхронизация `docs/` -> `content/`.
+- `npm run search:build` - генерация локального поискового индекса.
+- `npm run export` - информационный скрипт о static export.
 
-## Project Structure
+## Структура проекта
+
 ```text
 app/
 components/
@@ -94,34 +105,35 @@ styles/
 ```
 
 Ключевые директории:
-- `app/` - маршруты и страницы (главная, docs, authors).
+
+- `app/` - маршруты и страницы приложения.
 - `components/` - layout и UI-компоненты.
-- `docs/` - исходные материалы, которые редактируются вручную.
-- `content/` - синхронизированный слой, используемый рантаймом/билдом.
-- `resources/` - дополнительные датасеты и файлы для практик.
-- `scripts/sync-content.mjs` - pipeline синхронизации контента.
+- `docs/` - редактируемые исходные материалы.
+- `content/` - контент, который читает приложение во время сборки и рантайма.
+- `resources/` - дополнительные файлы, датасеты и артефакты практик.
+- `scripts/` - служебные скрипты синхронизации и индексации.
 
-## Deployment (GitHub Pages)
-Деплой выполняется GitHub Actions workflow:
-- `.github/workflows/deploy-gh-pages.yml`
+## Деплой
 
-Требования в репозитории:
-1. `Settings` -> `Pages`
-2. `Build and deployment` -> `Source: GitHub Actions`
+Сайт публикуется в GitHub Pages workflow [`deploy-gh-pages.yml`](./.github/workflows/deploy-gh-pages.yml).
 
-После push в `main` публикуется обновленная статическая версия сайта.
+Что нужно в репозитории:
 
-## Contribution Flow
+1. В `Settings -> Pages` выбрать `Source: GitHub Actions`.
+2. Пушить изменения в ветку `main` или запускать workflow вручную.
+
+Production URL: `https://minaledm.github.io/StackMIREA/`
+
+## Как вносить изменения
+
 1. Добавьте или обновите материал в `docs/<track>/...`.
 2. Запустите `npm run content:sync`.
-3. Проверьте проект: `npm run lint` и `npm run typecheck`.
+3. Проверьте проект командами `npm run lint` и `npm run typecheck`.
 4. Откройте Pull Request.
 
-Для отображения автора материала можно указать в frontmatter поле `author` (GitHub login или ссылка на профиль).
+Для автора материала можно указать поле `author` во frontmatter: GitHub login или ссылку на профиль.
 
-## Contributing
-Issue и PR приветствуются. Для крупных изменений лучше сначала открыть issue с описанием идеи.
+## Лицензии
 
-## License
-- Код проекта: MIT - see [LICENSE](./LICENSE).
-- Контент сайта (документация, статьи, учебные материалы): CC-BY-NC-SA-4.0 - see [CC-BY-NC-SA-4.0](./CC-BY-NC-SA-4.0).
+- Код проекта распространяется по лицензии MIT. См. [LICENSE](./LICENSE).
+- Контент сайта, статьи и учебные материалы распространяются по лицензии CC BY-NC-SA 4.0. См. [CC-BY-NC-SA-4.0](./CC-BY-NC-SA-4.0).
