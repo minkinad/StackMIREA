@@ -39,4 +39,4 @@ slug: /intro
 
 - Python: `pr_Python/`
 - Java: `docs/java/` и `content/java/`
-- GitHub: [MinAleDm/StackMIREA](https://github.com/MinAleDm/StackMIREA)
+- GitHub: [minkinad/StackMIREA](https://github.com/minkinad/StackMIREA)

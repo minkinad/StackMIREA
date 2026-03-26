@@ -12,7 +12,8 @@ export interface DevTeamMember extends GitHubPerson {
 
 const DEFAULT_DOC_AUTHOR = REPO_OWNER;
 const DEV_TEAM_MEMBERS: Array<{ github: string; role: string }> = [
-  { github: REPO_OWNER, role: "CPO" }
+  { github: REPO_OWNER, role: "CEO" },
+  { github: "g10bus", role: "Media Team Lead" }
 ];
 
 function normalizeGitHubLogin(rawValue: string) {

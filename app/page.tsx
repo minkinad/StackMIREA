@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Bot, Brain, BrainCircuit, Code2, Database, ExternalLink, GitPullRequest, ListChecks, Sigma, Users } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, REPO_URL } from "@/lib/utils";
 import { getTrackDefinitions, type TrackIconKey } from "@/lib/tracks";
 
 export const dynamic = "force-static";
@@ -49,17 +49,17 @@ const publicationRules = [
 const pullRequestLinks = [
   {
     title: "Создать Pull Request",
-    href: "https://github.com/MinAleDm/StackMIREA/compare?expand=1",
+    href: `${REPO_URL}/compare?expand=1`,
     description: "Откроет форму сравнения веток и создания PR для публикации."
   },
   {
     title: "Все Pull Request",
-    href: "https://github.com/MinAleDm/StackMIREA/pulls",
+    href: `${REPO_URL}/pulls`,
     description: "Список открытых и закрытых PR по проекту."
   },
   {
     title: "Открытые Pull Request",
-    href: "https://github.com/MinAleDm/StackMIREA/pulls?q=is%3Apr+is%3Aopen",
+    href: `${REPO_URL}/pulls?q=is%3Apr+is%3Aopen`,
     description: "Быстрый фильтр для проверки, что уже находится на ревью."
   }
 ];

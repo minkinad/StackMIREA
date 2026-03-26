@@ -4,10 +4,10 @@ import { twMerge } from "tailwind-merge";
 export const SITE_NAME = "StackMIREA";
 export const SITE_DESCRIPTION =
   "Production-grade documentation platform for Python, AI, BigData, Java and algorithms practices.";
-export const REPO_OWNER = "MinAleDm";
+export const REPO_OWNER = "minkinad";
 export const REPO_NAME = "StackMIREA";
 export const DEFAULT_BRANCH = "main";
-export const SITE_ORIGIN = "https://minaledm.github.io";
+export const SITE_ORIGIN = "https://minkinad.github.io";
 export const BASE_PATH = "/StackMIREA";
 export const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 export const DOCS_ROOT = "/docs";

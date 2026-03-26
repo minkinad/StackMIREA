@@ -1,4 +1,4 @@
-[![Deploy Docs to GitHub Pages](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/MinAleDm/StackMIREA/actions/workflows/deploy-gh-pages.yml)
+[![Deploy Docs to GitHub Pages](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml)
 [![Node.js >= 20](https://img.shields.io/badge/Node.js-%3E%3D20-000000?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -122,7 +122,7 @@ styles/
 1. В `Settings -> Pages` выбрать `Source: GitHub Actions`.
 2. Пушить изменения в ветку `main` или запускать workflow вручную.
 
-Production URL: `https://minaledm.github.io/StackMIREA/`
+Production URL: `https://minkinad.github.io/StackMIREA/`
 
 ## Как вносить изменения
 
