@@ -12,7 +12,6 @@ import { GitHubUserBadge } from "@/components/ui/GitHubUserBadge";
 import { Pagination } from "@/components/ui/Pagination";
 import { compileDocMdx } from "@/lib/mdx";
 import { getAllDocs, getDocBySlug, getDocPagination, getSidebarGroups } from "@/lib/navigation";
-import { extractTableOfContents } from "@/lib/toc";
 import { GITHUB_EDIT_ROOT } from "@/lib/utils";
 
 interface DocPageProps {
@@ -50,9 +49,8 @@ export default async function DocPage({ params }: DocPageProps) {
 
   const buildInfo = getBuildInfo();
   const sidebarGroups = getSidebarGroups();
-  const toc = extractTableOfContents(doc.body);
   const pagination = getDocPagination(params.slug);
-  const content = await compileDocMdx(doc.body);
+  const { content, toc } = await compileDocMdx(doc.body);
   const editUrl = doc.editPath ? `${GITHUB_EDIT_ROOT}/${doc.editPath}` : null;
 
   return (

@@ -1,97 +1,9 @@
 import { compileMDX } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 
 import { Callout } from "@/components/ui/Callout";
 import { CodeBlock } from "@/components/ui/CodeBlock";
-
-function parseCodeInfo(info: string) {
-  const [lang = "text", ...metaParts] = info.trim().split(/\s+/);
-  const meta = metaParts.join(" ");
-  const filenameMatch = /(?:title|filename)=["']?([^\s"']+)["']?/.exec(meta);
-
-  return {
-    lang,
-    filename: filenameMatch?.[1]
-  };
-}
-
-function escapeHtmlAttribute(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-function transformCodeFences(source: string) {
-  const lines = source.split("\n");
-  const output: string[] = [];
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-    const openFence = /^(`{3,}|~{3,})(.*)$/.exec(line.trim());
-
-    if (!openFence) {
-      output.push(line);
-      continue;
-    }
-
-    const fence = openFence[1];
-    const fenceChar = fence[0];
-    const minFenceLength = fence.length;
-    const closeFencePattern = new RegExp(`^${fenceChar}{${minFenceLength},}\\s*$`);
-    const codeLines: string[] = [];
-    index += 1;
-
-    while (index < lines.length && !closeFencePattern.test(lines[index].trim())) {
-      codeLines.push(lines[index]);
-      index += 1;
-    }
-
-    const { lang, filename } = parseCodeInfo(openFence[2] ?? "");
-    const code = codeLines.join("\n");
-    const filenameAttribute = filename ? ` filename="${escapeHtmlAttribute(filename)}"` : "";
-
-    output.push(`<CodeBlock lang="${escapeHtmlAttribute(lang)}" code={${JSON.stringify(code)}}${filenameAttribute} />`);
-  }
-
-  return output.join("\n");
-}
-
-function transformAdmonitions(source: string) {
-  const lines = source.split("\n");
-  const output: string[] = [];
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index].trim();
-    const open = /^:::(tip|warning|info|note)\s*$/.exec(line);
-
-    if (!open) {
-      output.push(lines[index]);
-      continue;
-    }
-
-    const type = open[1];
-    const content: string[] = [];
-    index += 1;
-
-    while (index < lines.length && lines[index].trim() !== ":::") {
-      content.push(lines[index]);
-      index += 1;
-    }
-
-    output.push(`<Callout type="${type}">`);
-    output.push(...content);
-    output.push("</Callout>");
-  }
-
-  return output.join("\n");
-}
-
-function preprocessMdx(source: string) {
-  return transformCodeFences(transformAdmonitions(source));
-}
+import { getMarkdownRemarkPlugins, type TocItem } from "@/lib/markdown";
 
 const mdxComponents = {
   Callout,
@@ -99,19 +11,22 @@ const mdxComponents = {
 };
 
 export async function compileDocMdx(source: string) {
-  const transformed = preprocessMdx(source);
+  const toc: TocItem[] = [];
 
   const result = await compileMDX({
-    source: transformed,
+    source,
     options: {
       parseFrontmatter: false,
       mdxOptions: {
-        remarkPlugins: [remarkGfm],
+        remarkPlugins: [...getMarkdownRemarkPlugins(toc)],
         rehypePlugins: [rehypeSlug]
       }
     },
     components: mdxComponents
   });
 
-  return result.content;
+  return {
+    content: result.content,
+    toc
+  };
 }

@@ -2,6 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import GithubSlugger from "github-slugger";
+import { toString } from "mdast-util-to-string";
+import remarkDirective from "remark-directive";
+import remarkGfm from "remark-gfm";
+import remarkMdx from "remark-mdx";
+import remarkParse from "remark-parse";
+import { unified } from "unified";
+import { visit } from "unist-util-visit";
 
 const projectRoot = process.cwd();
 const contentRoot = path.join(projectRoot, "content");
@@ -54,35 +61,18 @@ function normalizeHeading(rawHeading) {
 }
 
 function extractHeadingAnchors(markdown) {
+  const tree = unified().use(remarkParse).use(remarkMdx).use(remarkGfm).use(remarkDirective).parse(markdown);
   const slugger = new GithubSlugger();
   const anchors = new Set();
-  const lines = markdown.split("\n");
-  let inCodeFence = false;
+  visit(tree, "heading", (node) => {
+    const title = normalizeHeading(toString(node));
 
-  for (const line of lines) {
-    const trimmed = line.trim();
-
-    if (/^(`{3,}|~{3,})/.test(trimmed)) {
-      inCodeFence = !inCodeFence;
-      continue;
-    }
-
-    if (inCodeFence) {
-      continue;
-    }
-
-    const headingMatch = /^(#{1,6})\s+(.+)$/.exec(trimmed);
-    if (!headingMatch) {
-      continue;
-    }
-
-    const title = normalizeHeading(headingMatch[2]);
     if (!title) {
-      continue;
+      return;
     }
 
     anchors.add(slugger.slug(title));
-  }
+  });
 
   return anchors;
 }

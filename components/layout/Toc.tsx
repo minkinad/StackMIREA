@@ -3,13 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import type { TocItem } from "@/lib/toc";
 import { cn } from "@/lib/utils";
-
-export interface TocItem {
-  id: string;
-  title: string;
-  depth: 2 | 3;
-}
 
 interface TocProps {
   items: TocItem[];
