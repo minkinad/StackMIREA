@@ -1,0 +1,39 @@
+name: Запрос На Улучшение
+description: Предложить новую функцию, улучшение или доработку workflow.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Проблема Или Возможность
+      description: Какую проблему вы хотите решить?
+      placeholder: Чего сейчас не хватает?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое Решение
+      description: Опишите желаемое изменение.
+      placeholder: Что нужно добавить или изменить?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Область Изменения
+      description: Какую часть проекта это затрагивает?
+      placeholder: UI, search, docs structure, content pipeline, CI, deployment...
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Рассмотренные Альтернативы
+      description: Необязательно. Опишите альтернативные идеи или почему текущего поведения недостаточно.
+  - type: textarea
+    id: success
+    attributes:
+      label: Критерии Готовности
+      description: Как понять, что задача действительно решена?
+      placeholder: Как должен выглядеть хороший результат?

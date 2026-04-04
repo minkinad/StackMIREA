@@ -1,24 +1,23 @@
 [![GitHub Pages Deploy](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml)
 [![PR Checks](https://github.com/minkinad/StackMIREA/actions/workflows/pr-check.yml/badge.svg)](https://github.com/minkinad/StackMIREA/actions/workflows/pr-check.yml)
-[![Node.js 20+](https://img.shields.io/badge/Node.js-20%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Next.js 14](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 # StackMIREA
 
-StackMIREA - русскоязычная статическая документационная платформа для IT-дисциплин МИРЭА. Проект собирает учебные треки, практики, ноутбуки и методические материалы в единый интерфейс с документацией, семантическим поиском, блоком авторов на главной и публикацией через GitHub Pages.
+StackMIREA - статическая документационная платформа для IT-дисциплин РТУ МИРЭА. Проект собирает учебные треки, практики, ноутбуки и методические материалы в единый интерфейс с документацией, семантическим поиском, блоком авторов на главной и публикацией через GitHub Pages.
 
 Production URL: https://minkinad.github.io/StackMIREA/
 
 ## Актуальное состояние проекта
 
-Актуально на 30 марта 2026 года.
+Актуально на 4 апреля 2026 года.
 
 - 19 учебных треков в `content/`.
+- 68 исходных Markdown/MDX-файлов в `docs/`.
 - 71 синхронизированная Markdown/MDX-страница.
 - 52 отдельных учебных материала без учёта индексных страниц разделов.
 - Крупнейшие треки: `java` (26 страниц), `ai` (9), `bigdata` (9), `python` (6), `procedural-programming` (6).
 - Два workflow в CI/CD: `PR Checks` и `Deploy Docs to GitHub Pages`.
+- Добавлены community health файлы для GitHub: `CONTRIBUTING`, `CODE_OF_CONDUCT`, `SECURITY`, `SUPPORT`, issue templates и PR template.
 
 ## Что есть?
 
@@ -44,6 +43,7 @@ Production URL: https://minkinad.github.io/StackMIREA/
 - `content/` - синхронизированный слой, который использует приложение.
 - `resources/` - дополнительные файлы, датасеты и артефакты практик.
 - `scripts/` - генерация контента, поискового индекса и валидация ссылок.
+- `public/search-index.json` - локальный поисковый индекс для страницы `/ask`.
 
 Основной pipeline:
 
@@ -112,6 +112,11 @@ resources/
 scripts/
 styles/
 .github/workflows/
+.github/ISSUE_TEMPLATE/
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
+SUPPORT.md
 ```
 
 ## CI/CD и деплой
@@ -119,6 +124,15 @@ styles/
 - [`.github/workflows/pr-check.yml`](./.github/workflows/pr-check.yml) проверяет `prepare:content`, `validate:content`, `lint`, `typecheck` и `build` для Pull Request.
 - [`.github/workflows/deploy-gh-pages.yml`](./.github/workflows/deploy-gh-pages.yml) публикует сайт в GitHub Pages при пуше в `main` и при ручном запуске.
 - В `Settings -> Pages` должен быть выбран `Source: GitHub Actions`.
+
+## Community и вклад в проект
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - как правильно вносить изменения.
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) - правила поведения в проекте.
+- [SECURITY.md](./SECURITY.md) - как безопасно сообщать об уязвимостях.
+- [SUPPORT.md](./SUPPORT.md) - как запросить помощь и куда писать.
+- [`.github/ISSUE_TEMPLATE/`](./.github/ISSUE_TEMPLATE/) - шаблоны для bug report, feature request и content update.
+- [`.github/pull_request_template.md`](./.github/pull_request_template.md) - шаблон описания pull request.
 
 ## Как вносить изменения
 
@@ -129,6 +143,8 @@ styles/
 5. Откройте Pull Request.
 
 Для автора материала можно указать поле `author` во frontmatter: GitHub login или ссылку на профиль.
+
+Для более подробного процесса контрибуции см. [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Лицензии
 

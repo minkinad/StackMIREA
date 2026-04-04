@@ -1,0 +1,61 @@
+name: Сообщение Об Ошибке
+description: Сообщить об ошибке в сайте, рендере docs, сборке, валидации или workflow репозитория.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо за сообщение. Пожалуйста, добавьте достаточно контекста, чтобы проблему можно было быстро воспроизвести.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Краткое Описание
+      description: Коротко опишите проблему.
+      placeholder: Что именно сломалось?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Шаги Воспроизведения
+      description: Укажите точные шаги, команды, маршруты или файлы.
+      placeholder: |
+        1. Запустить ...
+        2. Открыть ...
+        3. Перейти в ...
+        4. Увидеть ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ожидаемое Поведение
+      placeholder: Что должно было произойти?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Фактическое Поведение
+      placeholder: Что произошло вместо этого?
+    validations:
+      required: true
+  - type: input
+    id: affected_path
+    attributes:
+      label: Затронутый Путь Или Маршрут
+      description: Например: docs/python/overview.mdx или /docs/python/overview
+      placeholder: docs/... or /docs/...
+  - type: textarea
+    id: verification
+    attributes:
+      label: Локальная Проверка
+      description: Если есть, приложите вывод prepare, validate, lint, typecheck или build.
+      render: shell
+  - type: textarea
+    id: extra
+    attributes:
+      label: Дополнительный Контекст
+      description: Скриншоты, логи, детали окружения или любые полезные заметки.

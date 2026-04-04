@@ -1,0 +1,49 @@
+name: Обновление Контента
+description: Предложить новый учебный материал или обновление существующего.
+title: "[Content]: "
+labels:
+  - documentation
+body:
+  - type: input
+    id: track
+    attributes:
+      label: Трек
+      description: Какой трек затронут?
+      placeholder: python, java, ai, bigdata...
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Целевой Файл Или Планируемый Путь
+      description: Например: docs/python/practice-7.mdx
+      placeholder: docs/<track>/...
+  - type: textarea
+    id: summary
+    attributes:
+      label: Предлагаемое Изменение
+      description: Что именно нужно добавить, обновить или удалить?
+      placeholder: Кратко опишите изменение.
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Почему Это Важно
+      description: Объясните, зачем это изменение нужно проекту.
+      placeholder: Какую потребность или пробел это закрывает?
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Источники Или Референсы
+      description: Необязательно. Можно приложить ссылки, датасеты, ноутбуки или старые материалы.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Чеклист Контрибьютора
+      options:
+        - label: Я буду редактировать контент в docs/, а не в сгенерированном content/
+        - label: Я запущу prepare:content и validate:content перед открытием PR
+        - label: Я добавлю author metadata, если это уместно
