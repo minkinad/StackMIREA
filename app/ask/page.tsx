@@ -14,8 +14,8 @@ export default function AskPage() {
   return (
     <div className="mx-auto w-full max-w-[1440px] px-4 pb-20 pt-14 sm:px-6 lg:px-8">
       <section className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/65 px-6 py-12 sm:px-10">
-        <div className="pointer-events-none absolute -right-12 top-0 h-64 w-64 rounded-full bg-sky-500/15 blur-3xl" />
-        <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-12 top-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-foreground/10 blur-3xl" />
 
         <div className="relative max-w-4xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/70 px-3 py-1 text-xs text-muted-foreground">

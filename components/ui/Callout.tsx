@@ -13,10 +13,10 @@ const icons = {
 } satisfies Record<CalloutType, ComponentType<{ className?: string }>>;
 
 const classes: Record<CalloutType, string> = {
-  info: "border-blue-500/30 bg-blue-500/8",
-  warning: "border-amber-500/35 bg-amber-500/8",
-  tip: "border-emerald-500/35 bg-emerald-500/8",
-  note: "border-slate-500/35 bg-slate-500/8"
+  info: "border-primary/20 bg-primary/5",
+  warning: "border-foreground/20 bg-foreground/5",
+  tip: "border-primary/10 bg-primary/5",
+  note: "border-border bg-muted/70"
 };
 
 interface CalloutProps {
