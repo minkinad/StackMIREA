@@ -18,7 +18,10 @@ const CONTENT_TEAM_MEMBERS: Array<{ github: string; role: string }> = [
   { github: REPO_OWNER, role: "Head of Content" },
   { github: "g10bus", role: "Media Team Lead" }
 ];
-const DEV_TEAM_MEMBERS: Array<{ github: string; role: string }> = [{ github: REPO_OWNER, role: "Dashboard Team Lead" }];
+const DEV_TEAM_MEMBERS: Array<{ github: string; role: string }> = [
+  { github: REPO_OWNER, role: "Dashboard Team Lead" },
+  { github: "https://github.com/rbdnv", role: "Frontend Developer" }
+];
 
 function normalizeGitHubLogin(rawValue: string) {
   const trimmed = rawValue.trim();
