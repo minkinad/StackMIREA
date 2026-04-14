@@ -1,5 +1,4 @@
 [![GitHub Pages Deploy](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/minkinad/StackMIREA/actions/workflows/deploy-gh-pages.yml)
-[![PR Checks](https://github.com/minkinad/StackMIREA/actions/workflows/pr-check.yml/badge.svg)](https://github.com/minkinad/StackMIREA/actions/workflows/pr-check.yml)
 
 # StackMIREA
 
