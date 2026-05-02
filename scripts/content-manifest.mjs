@@ -13,6 +13,9 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
 
+import { parseDocFrontmatter } from "./content-schema.mjs";
+import { createContentReport, writeContentReport } from "./content-report.mjs";
+
 export const projectRoot = process.cwd();
 export const docsRoot = path.join(projectRoot, "docs");
 export const cacheRoot = path.join(projectRoot, ".cache");
@@ -25,6 +28,7 @@ const DEFAULT_DOC_AUTHOR = "minkinad";
 const topicDefinitions = JSON.parse(fs.readFileSync(TOPICS_PATH, "utf8"));
 const trackDefinitions = JSON.parse(fs.readFileSync(TRACKS_PATH, "utf8"));
 const trackTitles = new Map(trackDefinitions.map((track) => [track.id, track.title]));
+const knownTrackIds = new Set(trackDefinitions.map((track) => track.id));
 
 const SECTION_INDEX = {
   java: {
@@ -359,16 +363,54 @@ export class ContentRepository {
 }
 
 export class Parser {
+  constructor(report, mode) {
+    this.report = report;
+    this.mode = mode;
+  }
+
+  addIssue(issue) {
+    const severity = this.mode === "error" ? "error" : "warning";
+
+    this.report.issues.push({
+      severity,
+      ...issue
+    });
+
+    this.report.summary[severity === "error" ? "errors" : "warnings"] += 1;
+  }
+
   parse(document) {
     const parsed = matter(document.rawSource);
+    const frontmatterResult = parseDocFrontmatter(parsed.data);
+    if (!frontmatterResult.success) {
+      for (const issue of frontmatterResult.error.issues) {
+        this.addIssue({
+          code: "invalid_frontmatter",
+          file: document.sourcePath,
+          virtualPath: document.virtualPath,
+          message: `${issue.path.join(".") || "frontmatter"}: ${issue.message}`
+        });
+      }
+    }
+    const frontmatter = frontmatterResult.success ? frontmatterResult.data : parsed.data;
     const slug = normalizeSlug(document.virtualPath);
     const section = slug[0] ?? "docs";
+
+    if (!knownTrackIds.has(section)) {
+      this.addIssue({
+        code: "unknown-section-id",
+        file: document.sourcePath,
+        virtualPath: document.virtualPath,
+        message: `Unknown section '${section}'. Add it to lib/tracks.json or move the document`
+      });
+    }
+
     const isSectionIndex = slug.length === 1;
-    const parsedOrder = Number(parsed.data.order ?? parsed.data.sidebar_position);
+    const parsedOrder = Number(frontmatter.order ?? frontmatter.sidebar_position);
     const order = Number.isFinite(parsedOrder) ? parsedOrder : isSectionIndex ? 0 : 9999;
-    const title = parsed.data.title?.toString().trim() || toTitleCase(slug.at(-1) ?? section);
-    const description = parsed.data.description?.toString().trim() || "";
-    const rawAuthor = parsed.data.author?.toString().trim() || DEFAULT_DOC_AUTHOR;
+    const title = frontmatter.title?.toString().trim() || toTitleCase(slug.at(-1) ?? section);
+    const description = frontmatter.description?.toString().trim() || "";
+    const rawAuthor = frontmatter.author?.toString().trim() || DEFAULT_DOC_AUTHOR;
     const preview = stripMarkdown(parsed.content).slice(0, 260).trim();
     const { anchors, toc } = extractHeadingData(parsed.content);
     const topicSource = `${title} ${description} ${preview} ${stripMarkdown(parsed.content)}`;
@@ -399,15 +441,31 @@ export class Parser {
 }
 
 export class ManifestBuilder {
-  constructor(repository = new ContentRepository(), parser = new Parser()) {
+  constructor(repository = new ContentRepository(), mode = "error") {
     this.repository = repository;
-    this.parser = parser;
+    this.mode = mode;
+    this.report = createContentReport(mode);
+    this.parser = new Parser(this.report, mode);
   }
 
   build() {
     const documentsByVirtualPath = new Map();
 
     for (const document of this.repository.read()) {
+      const existing = documentsByVirtualPath.get(document.virtualPath);
+
+      if (existing) {
+        this.report.issues.push({
+          severity: this.mode === "error" ? "error" : "warning",
+          code: "duplicate_virtual_path",
+          file: document.sourcePath,
+          virtualPath: document.virtualPath,
+          message: `Duplicate virtual path '${document.virtualPath}' already used by ${existing.sourcePath}`
+        });
+        this.report.summary[this.mode === "error" ? "errors" : "warnings"] += 1;
+        continue;
+      }
+      
       documentsByVirtualPath.set(document.virtualPath, document);
     }
 
@@ -420,6 +478,17 @@ export class ManifestBuilder {
           editPath: null,
           virtualPath: config.virtualPath
         });
+      } else {
+        const existing = documentsByVirtualPath.get(config.virtualPath);
+
+        this.report.issues.push({
+          severity: "warning",
+          code: "generated-page-shadowed",
+          file: existing.sourcePath,
+          virtualPath: config.virtualPath,
+          message: `Generated path '${config.virtualPath}' is shadowed by source file '${existing.sourcePath}'.`
+        });
+        this.report.summary.warnings += 1;
       }
     }
 
@@ -427,6 +496,44 @@ export class ManifestBuilder {
       .map((document) => this.parser.parse(document))
       .sort((left, right) => left.slugKey.localeCompare(right.slugKey));
 
+      const docsBySlug = new Map();
+
+      for (const doc of docs) {
+        const existing = docsBySlug.get(doc.slugKey);
+
+        if (existing) {
+          this.report.issues.push({
+            severity: this.mode === "error" ? "error" : "warning",
+            code: "duplicate-slug",
+            file: doc.sourcePath,
+            virtualPath: doc.virtualPath,
+            slugKey: doc.slugKey,
+            message: `Duplicate slug '${doc.slugKey}' already used by ${existing.sourcePath ?? existing.virtualPath}`
+          });
+          this.report.summary[this.mode === "error" ? "errors" : "warnings"] += 1;
+        }
+
+        docsBySlug.set(doc.slugKey, doc);
+      }
+
+      const sections = new Set(docs.map((doc) => doc.section));
+      const sectionIndexes = new Set(
+        docs.filter((doc) => doc.isSectionIndex).map((doc) => doc.section)
+      );
+
+      for (const section of sections) {
+        if (!sectionIndexes.has(section)) {
+          this.report.issues.push({
+            severity: this.mode === "error" ? "error" : "warning",
+            code: "missing-section-index",
+            file: null,
+            virtualPath: `${section}/index.mdx`,
+            message: `Section '${section}' has no index page. Create docs/${section}/index.mdx.`
+          });
+          this.report.summary[this.mode === "error" ? "errors" : "warnings"] += 1;
+        }
+      }
+    
     return {
       version: 1,
       generatedAt: new Date().toISOString(),
@@ -437,8 +544,12 @@ export class ManifestBuilder {
 
   write(targetPath = manifestPath) {
     const manifest = this.build();
+    this.report.summary.documents = manifest.docs.length;
+
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    writeContentReport(this.report);
+
     return manifest;
   }
 }
@@ -451,6 +562,24 @@ const executedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
 const currentPath = fileURLToPath(import.meta.url);
 
 if (executedPath === currentPath) {
-  const manifest = new ManifestBuilder().write();
+  const mode = getContentMode();
+  const builder = new ManifestBuilder(new ContentRepository(), mode);
+  const manifest = builder.write();
+  
   console.log(`Content manifest generated at ${path.relative(projectRoot, manifestPath)} (${manifest.docs.length} docs)`);
+  console.log(`Content report generated at .cache/content-report.json`);
+
+  if (builder.report.summary.errors > 0 && mode === "error") {
+    console.error(`Content validation failed with ${builder.report.summary.errors} error(s).`);
+    process.exit(1);
+  }
+}
+
+function getContentMode() {
+  const rawMode = process.argv
+  .find((arg) => arg.startsWith("--mode="))
+  ?.split("=")
+  .at(1);
+
+  return rawMode ?? "error"
 }
